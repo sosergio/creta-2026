@@ -766,7 +766,8 @@ function openPlaceDetail(slug) {
   tipsEl.style.display = p.tips.length ? '' : 'none';
   tipsEl.innerHTML = p.tips.map(t => `<li>${t}</li>`).join('');
   document.getElementById('modalMapLink').href = mapLink(p.q);
-  document.getElementById('modalMapImg').style.backgroundImage = `url('images/maps/${p.slug}.jpg')`;
+  const heroImg = p.img ? `images/${p.img}.jpg` : `images/maps/${p.slug}.jpg`;
+  document.getElementById('modalMapImg').style.backgroundImage = `url('${heroImg}')`;
   placeModal.classList.add('open');
   placeModal.querySelector('.modal-sheet').scrollTop = 0;
 }
