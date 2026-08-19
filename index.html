@@ -188,6 +188,17 @@
   .chip-arrow { opacity: 0.6; margin-left: 1px; font-size: 0.75em; }
 
   /* ---------- Guide ---------- */
+  .gmaps-list-link {
+    display: flex; align-items: center; gap: 12px; text-decoration: none;
+    background: var(--navy); color: var(--cream); border-radius: var(--radius);
+    padding: 13px 16px; margin-bottom: 16px;
+  }
+  .gmaps-list-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .gmaps-list-text { flex: 1; min-width: 0; }
+  .gmaps-list-title { display: block; font-family: var(--serif); font-size: 0.94rem; }
+  .gmaps-list-sub { display: block; font-size: 0.74rem; color: var(--gold-light); opacity: 0.85; margin-top: 1px; }
+  .gmaps-list-arrow { font-size: 0.9rem; color: var(--gold-light); flex-shrink: 0; }
+
   .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
   .guide-filters::-webkit-scrollbar { display: none; }
   .filter-btn {
@@ -337,6 +348,14 @@
     <section class="view" id="view-guide">
       <div class="section-title">Guida ai Luoghi</div>
       <div class="section-sub">Spiagge, cultura e tavole da non perdere</div>
+      <a class="gmaps-list-link" href="https://maps.app.goo.gl/Birqs6gT6SYGb7aC9" target="_blank" rel="noopener">
+        <span class="gmaps-list-icon">🗺️</span>
+        <span class="gmaps-list-text">
+          <span class="gmaps-list-title">Lista completa su Google Maps</span>
+          <span class="gmaps-list-sub">Tutti i luoghi salvati, in un'unica mappa</span>
+        </span>
+        <span class="gmaps-list-arrow">↗</span>
+      </a>
       <div class="guide-filters" id="guideFilters">
         <button class="filter-btn active" data-cat="all">Tutti</button>
         <button class="filter-btn" data-cat="beach">Spiagge</button>
