@@ -288,8 +288,9 @@
     transition: opacity 0.22s ease, transform 0.22s ease;
   }
   .modal-overlay.open { opacity: 1; transform: translateY(0); }
+  .modal-overlay.open .modal-sheet { pointer-events: auto; }
   .modal-sheet {
-    pointer-events: auto;
+    pointer-events: none;
     background: var(--cream); width: 100%; max-width: 640px;
     max-height: 58vh; overflow-y: auto; overscroll-behavior: contain;
     border-radius: 18px 18px 0 0; position: relative;
