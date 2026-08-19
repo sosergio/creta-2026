@@ -12,6 +12,7 @@
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 <link rel="icon" href="icons/favicon-32.png">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <style>
   :root {
     --navy: #0b2545;
@@ -200,6 +201,15 @@
   .gmaps-list-sub { display: block; font-size: 0.74rem; color: var(--gold-light); opacity: 0.85; margin-top: 1px; }
   .gmaps-list-arrow { font-size: 0.9rem; color: var(--gold-light); flex-shrink: 0; }
 
+  /* ---------- Map view ---------- */
+  .leaflet-map {
+    height: 66vh; min-height: 420px; border-radius: var(--radius);
+    overflow: hidden; border: 1px solid var(--cream-dark); margin-top: 2px;
+  }
+  .leaflet-map .leaflet-popup-content-wrapper,
+  .leaflet-map .leaflet-popup-tip { background: var(--white); color: var(--ink); }
+  .leaflet-marker-icon.place-marker { cursor: pointer; }
+
   .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
   .guide-filters::-webkit-scrollbar { display: none; }
   .filter-btn {
@@ -379,11 +389,29 @@
         <div class="credits-list" id="creditsList"></div>
       </details>
     </section>
+
+    <!-- MAPPA -->
+    <section class="view" id="view-map">
+      <div class="section-title">Mappa</div>
+      <div class="section-sub">Seleziona un giorno per vedere le tappe sulla mappa</div>
+      <div class="day-tabs" id="mapTabs">
+        <button class="tab-btn active" data-day="all">Tutti</button>
+        <button class="tab-btn" data-day="1">Mar 25</button>
+        <button class="tab-btn" data-day="2">Mer 26</button>
+        <button class="tab-btn" data-day="3">Gio 27</button>
+        <button class="tab-btn" data-day="4">Ven 28</button>
+        <button class="tab-btn" data-day="5">Sab 29</button>
+        <button class="tab-btn" data-day="6">Dom 30</button>
+      </div>
+      <div id="leafletMap" class="leaflet-map"></div>
+      <p class="place-note">Serve connessione internet per caricare la mappa.</p>
+    </section>
   </main>
 
   <nav id="bottomNav">
     <button data-view="itinerary" class="active"><span class="nav-icon">🗓️</span>Itinerario</button>
     <button data-view="guide"><span class="nav-icon">📍</span>Guida</button>
+    <button data-view="map"><span class="nav-icon">🗺️</span>Mappa</button>
   </nav>
 
   <div class="modal-overlay" id="placeModal">
@@ -408,6 +436,7 @@
   </div>
 </div>
 
+<script src="vendor/leaflet/leaflet.js"></script>
 <script>
 const mapLink = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
 
@@ -513,97 +542,97 @@ const days = [
 const places = [
   {
     cat: "beach", icon: "🏖️", name: "Platanes Beach", tagline: "Comoda, a due passi dall'hotel", days: "Giorno 2",
-    q: "Platanes Beach Rethymno", slug: "platanes",
+    q: "Platanes Beach Rethymno", slug: "platanes", lat: 35.3718485, lon: 24.5288069,
     desc: "Spiaggia sabbiosa proprio accanto a Platanes/Missiria, raggiungibile a piedi o in pochi minuti d'auto dal May Beach Hotel. Ingresso in acqua graduale, ideale per i bambini piccoli. Lungomare attrezzato con lettini, ombrelloni e diverse taverne.",
     tips: ["Perfetta per un bagno breve prima o dopo la piscina", "Meno affollata la mattina presto"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Bali Beach", tagline: "Baie riparate e acque turchesi", days: "Giorno 3",
-    q: "Bali Beach Crete", slug: "bali",
+    q: "Bali Beach Crete", slug: "bali", lat: 35.4137388, lon: 24.7826252,
     desc: "Piccolo villaggio sulla costa nord con diverse calette riparate dal vento (Livadi, Karavostasi, Evita), vicine tra loro ma separate da promontori rocciosi. Acque calme e cristalline, ottime per nuotare con i bambini. In alta stagione può affollarsi rapidamente, soprattutto a mezzogiorno.",
     tips: ["Arrivare in mattinata per trovare posto comodo", "Diverse taverne sul mare per il pranzo"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Elafonissi Beach", tagline: "La spiaggia rosa, gioiello di Creta", days: "Giorno 5",
-    q: "Elafonissi Beach Crete", img: "elafonissi", slug: "elafonissi",
+    q: "Elafonissi Beach Crete", img: "elafonissi", slug: "elafonissi", lat: 35.2694547, lon: 23.5316352,
     desc: "Riserva naturale nella punta sud-occidentale dell'isola, famosa per la sabbia rosata e la laguna bassa e trasparente che la separa da un isolotto. Tra le spiagge più fotografate della Grecia: diventa molto affollata dalla tarda mattinata, motivo della partenza anticipata delle 7:30.",
     tips: ["Portare ombrellone: pochissima ombra naturale", "Acqua bassissima nella laguna, sicura per i bimbi", "~2 ore di auto da Rethymno"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Episkopi Beach", tagline: "Ampia, sabbiosa, tranquilla", days: "Giorno 4",
-    q: "Episkopi Beach Rethymno", slug: "episkopi",
+    q: "Episkopi Beach Rethymno", slug: "episkopi", lat: 35.3512752, lon: 24.3361802,
     desc: "Spiaggia ampia e sabbiosa a est di Rethymno, meno turistica delle spiagge principali, con acque poco profonde e fondale regolare. Buona alternativa rilassata alla piscina dell'hotel.",
     tips: ["Comoda se si preferisce evitare la folla"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Marathi Beach", tagline: "Baia a ferro di cavallo, acqua bassissima", days: "Giorno 6",
-    q: "Marathi Beach Chania", img: "marathi", slug: "marathi",
+    q: "Marathi Beach Chania", img: "marathi", slug: "marathi", lat: 35.4991849, lon: 24.1798266,
     desc: "Piccola baia riparata vicino a Chania, con acqua calma e poco profonda quasi ovunque: una delle spiagge più sicure di Creta per i bambini piccoli. Sabbia fine e diverse taverne sul lungomare.",
     tips: ["Ideale per chi ha bimbi molto piccoli"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Almyrida", tagline: "Villaggio costiero rilassato", days: "Giorno 6",
-    q: "Almyrida Crete", img: "almyrida", slug: "almyrida",
+    q: "Almyrida Crete", img: "almyrida", slug: "almyrida", lat: 35.4491516, lon: 24.2008832,
     desc: "Piccolo villaggio turistico vicino a Chania con spiaggia sabbiosa e acque calme, circondato da taverne e caffè sul mare. Atmosfera vivace, comoda per un ultimo bagno prima di dirigersi a Chania.",
     tips: []
   },
   {
     cat: "culture", icon: "🏛️", name: "Palazzo di Cnosso", tagline: "Il cuore della civiltà minoica", days: "Giorno 3 · Ingresso prenotato 17:00",
-    q: "Palace of Knossos", img: "knossos", slug: "knossos",
+    q: "Palace of Knossos", img: "knossos", slug: "knossos", lat: 35.2980573, lon: 25.1628132,
     desc: "Il più importante sito archeologico minoico di Creta, risalente a oltre 3500 anni fa. Ambientazione del mito del Labirinto e del Minotauro, con affreschi ricostruiti e ampi cortili. Ingresso già prenotato per le 17:00: il tardo pomeriggio evita comunque il caldo peggiore e regala una luce più morbida, pur restando pieno giorno.",
     tips: ["Raccontare il mito del Minotauro rende la visita più coinvolgente per i bimbi", "Acqua e cappellino comunque consigliati", "Prevedere 1-1h30 di visita con bambini", "Il sito chiude in serata: non serve affrettarsi"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Margarites", tagline: "Il borgo della ceramica", days: "Giorno 4",
-    q: "Margarites Crete ceramics village", img: "margarites", slug: "margarites",
+    q: "Margarites Crete ceramics village", img: "margarites", slug: "margarites", lat: 35.3396903, lon: 24.6868154,
     desc: "Villaggio collinare vicino a Rethymno con una tradizione ceramista secolare. Le stradine sono piene di botteghe artigiane dove si può vedere il tornio in azione e acquistare pezzi unici.",
     tips: ["Ottimo per una passeggiata tranquilla nel tardo pomeriggio", "Le botteghe sono interessanti anche per i bambini"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Anogeia", tagline: "Musica e tradizione sul Monte Psiloritis", days: "Giorno 3",
-    q: "Anogeia Crete", img: "anogeia", slug: "anogeia",
+    q: "Anogeia Crete", img: "anogeia", slug: "anogeia", lat: 35.2907619, lon: 24.8837274,
     desc: "Villaggio di montagna sulle pendici dello Psiloritis, noto per la musica tradizionale (lyra cretese), la tessitura e per il ruolo di simbolo della resistenza cretese durante la Seconda Guerra Mondiale. Qui, o nella vicina Axos, si trovano le migliori taverne per l'Antikristo.",
     tips: ["Clima più fresco rispetto alla costa", "Strada di montagna: guida più impegnativa ma paesaggi splendidi"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Rethymno Old Town", tagline: "Vicoli veneziani e la Fortezza", days: "Giorni 2, 5",
-    q: "Rethymno Old Town", img: "rethymno", slug: "rethymno-old-town",
+    q: "Rethymno Old Town", img: "rethymno", slug: "rethymno-old-town", lat: 35.3676472, lon: 24.4736079,
     desc: "Il centro storico di Rethymno mescola architettura veneziana e ottomana: vicoli stretti, balconi in legno, la Fortezza che domina il porto e un porto veneziano pittoresco pieno di taverne.",
     tips: ["Perfetto per una passeggiata serale dopo cena", "Il porto si anima particolarmente al tramonto"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Chania Old Town", tagline: "Il porto veneziano più bello di Creta", days: "Giorno 6",
-    q: "Venetian Harbour Chania", img: "chania", slug: "chania-old-town",
+    q: "Venetian Harbour Chania", img: "chania", slug: "chania-old-town", lat: 35.5120831, lon: 24.0191544,
     desc: "Una delle città vecchie più suggestive della Grecia, con il celebre Porto Veneziano, il faro egiziano e stradine piene di botteghe, gallerie e taverne. Ottima per lo shopping serale e una cena finale scenografica.",
     tips: ["Il faro e il porto sono più suggestivi al tramonto", "Molte opzioni shopping, buone anche per un adolescente"]
   },
   {
     cat: "food", icon: "🍽️", name: "Taverna Knossos", tagline: "Cena tranquilla in centro storico · Rethymno", days: "Giorno 2 · Prenotata 19:00",
-    q: "Taverna Knossos Rethymno Old Town", slug: "taverna-knossos",
+    q: "Taverna Knossos Rethymno Old Town", slug: "taverna-knossos", lat: 35.3661032, lon: 24.4777803,
     desc: "Taverna tradizionale nel cuore della città vecchia di Rethymno, adatta a gruppi numerosi e famiglie. Prenotata per le 19:00 per cenare con calma prima della passeggiata serale.",
     tips: []
   },
   {
     cat: "food", icon: "🍽️", name: "Taverna Goules", tagline: "Agnello e maiale alla brace · Goulediana", days: "Giorno 3 · Consigliata",
-    q: "Taverna Goules Goulediana", slug: "taverna-goules",
+    q: "Taverna Goules Goulediana", slug: "taverna-goules", lat: 35.283585, lon: 24.49838,
     desc: "Taverna di campagna a 15-20 minuti dall'hotel, famosa per le ricette tradizionali a base di agnello e maiale cotti lentamente. Ambiente informale e rilassato, immerso nel verde.",
     tips: []
   },
   {
     cat: "food", icon: "🔥", name: "Antikristo · Anogeia/Axos", tagline: "Agnello cotto al fuoco aperto", days: "Giorno 3 · Opzione speciale",
-    q: "Anogeia Crete taverna", slug: "antikristo-anogeia-axos",
+    q: "Anogeia Crete taverna", slug: "antikristo-anogeia-axos", lat: 35.2907619, lon: 24.8837274,
     desc: "Nei villaggi di montagna di Anogeia o Axos si trovano le taverne che preparano l'Antikristo: agnello intero disposto in cerchio attorno a un fuoco aperto e cotto lentamente per ore. Esperienza gastronomica autentica e scenografica, apprezzata anche dai bambini.",
     tips: []
   },
   {
     cat: "food", icon: "💃", name: "Taverna Thalassi", tagline: "Greek Night con musica e danze", days: "Giorno 4 · Prenotata 20:00",
-    q: "Taverna Thalassi Rethymno", slug: "taverna-thalassi",
+    q: "Taverna Thalassi Rethymno", slug: "taverna-thalassi", lat: 35.3676472, lon: 24.4736079,
     desc: "Cena delle 20:00 seguita, alle 20:30, da una serata a tema con musica dal vivo e danze tradizionali cretesi: un'esperienza coinvolgente per bambini, adolescenti e nonni insieme.",
     tips: []
   },
   {
     cat: "food", icon: "🍽️", name: "Asikiko (ΑΣΙΚΙΚΟ)", tagline: "Mezedopoleio nei vicoli di Rethymno", days: "Giorno 5 · Consigliata",
-    q: "Asikiko Rethymno", slug: "asikiko",
+    q: "Asikiko Rethymno", slug: "asikiko", lat: 35.3661032, lon: 24.4777803,
     desc: "Rinomato mezedopoleio (piccoli piatti da condividere) nel centro storico di Rethymno, con porzioni abbondanti, ingredienti di qualità e atmosfera caratteristica tra i vicoli.",
     tips: []
   }
@@ -733,6 +762,66 @@ document.addEventListener('click', (e) => {
   if (el) openPlaceDetail(el.dataset.place);
 });
 
+/* ---------------- MAP VIEW ---------------- */
+let leafletMap = null;
+let markersLayer = null;
+const CRETE_CENTER = [35.35, 24.5];
+
+function dayPlaceSlugs(day) {
+  const slugs = new Set();
+  day.maps.forEach(m => { if (m.place) slugs.add(m.place); });
+  day.badges.forEach(b => { if (b.place) slugs.add(b.place); });
+  return Array.from(slugs);
+}
+
+function initMap() {
+  if (leafletMap) return;
+  leafletMap = L.map('leafletMap', { scrollWheelZoom: false }).setView(CRETE_CENTER, 10);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+  }).addTo(leafletMap);
+  markersLayer = L.layerGroup().addTo(leafletMap);
+}
+
+function getActiveMapDay() {
+  const btn = document.querySelector('#mapTabs .tab-btn.active');
+  return btn ? btn.dataset.day : 'all';
+}
+
+function renderMapMarkers() {
+  if (!leafletMap) return;
+  markersLayer.clearLayers();
+  const filter = getActiveMapDay();
+  let slugs;
+  if (filter === 'all') {
+    slugs = places.filter(p => p.lat).map(p => p.slug);
+  } else {
+    const day = days.find(d => String(d.id) === String(filter));
+    slugs = day ? dayPlaceSlugs(day) : [];
+  }
+  const pts = [];
+  slugs.forEach(slug => {
+    const p = placesBySlug[slug];
+    if (!p || !p.lat) return;
+    const marker = L.marker([p.lat, p.lon]).addTo(markersLayer);
+    marker.bindTooltip(p.name, { direction: 'top', offset: [0, -8] });
+    marker.on('click', () => openPlaceDetail(slug));
+    pts.push([p.lat, p.lon]);
+  });
+  if (pts.length === 1) leafletMap.setView(pts[0], 14);
+  else if (pts.length > 1) leafletMap.fitBounds(pts, { padding: [30, 30] });
+  else leafletMap.setView(CRETE_CENTER, 10);
+}
+
+document.getElementById('mapTabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('#mapTabs .tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMapMarkers();
+});
+
 /* ---------------- BOTTOM NAV ---------------- */
 document.getElementById('bottomNav').addEventListener('click', (e) => {
   const btn = e.target.closest('button');
@@ -743,6 +832,10 @@ document.getElementById('bottomNav').addEventListener('click', (e) => {
   document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
   document.getElementById(`view-${view}`).classList.add('active');
   window.scrollTo({ top: 0, behavior: 'instant' });
+  if (view === 'map') {
+    initMap();
+    setTimeout(() => { leafletMap.invalidateSize(); renderMapMarkers(); }, 80);
+  }
 });
 
 /* ---------------- COUNTDOWN ---------------- */

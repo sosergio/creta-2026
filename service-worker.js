@@ -1,4 +1,4 @@
-const CACHE_NAME = "creta2026-v4";
+const CACHE_NAME = "creta2026-v5";
 const IMAGE_SLUGS = ["knossos", "rethymno", "chania", "elafonissi", "margarites", "anogeia", "marathi", "almyrida"];
 const MAP_SLUGS = [
   "platanes", "bali", "elafonissi", "episkopi", "marathi", "almyrida",
@@ -16,7 +16,12 @@ const ASSETS = [
   "./icons/favicon-32.png",
   ...IMAGE_SLUGS.map((s) => `./images/${s}.jpg`),
   ...IMAGE_SLUGS.map((s) => `./images/${s}-thumb.jpg`),
-  ...MAP_SLUGS.map((s) => `./images/maps/${s}.jpg`)
+  ...MAP_SLUGS.map((s) => `./images/maps/${s}.jpg`),
+  "./vendor/leaflet/leaflet.js",
+  "./vendor/leaflet/leaflet.css",
+  "./vendor/leaflet/images/marker-icon.png",
+  "./vendor/leaflet/images/marker-icon-2x.png",
+  "./vendor/leaflet/images/marker-shadow.png"
 ];
 
 self.addEventListener("install", (event) => {
