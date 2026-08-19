@@ -1,4 +1,4 @@
-const CACHE_NAME = "creta2026-v3";
+const CACHE_NAME = "creta2026-v4";
 const IMAGE_SLUGS = ["knossos", "rethymno", "chania", "elafonissi", "margarites", "anogeia", "marathi", "almyrida"];
 const MAP_SLUGS = [
   "platanes", "bali", "elafonissi", "episkopi", "marathi", "almyrida",
@@ -33,8 +33,33 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+const isAppShell = (request) =>
+  request.mode === "navigate" ||
+  request.url.endsWith("/index.html") ||
+  request.url.endsWith("/manifest.json") ||
+  request.url.endsWith("/service-worker.js");
+
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
+
+  // App shell: network-first, so an update is picked up as soon as there's
+  // signal, with the cached copy only as an offline fallback.
+  if (isAppShell(event.request)) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  // Static assets (images, icons): cache-first for speed and offline use.
   event.respondWith(
     caches.match(event.request).then((cached) => {
       const network = fetch(event.request)
