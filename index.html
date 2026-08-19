@@ -29,7 +29,7 @@
     --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     --radius: 4px;
     --safe-bottom: env(safe-area-inset-bottom, 0px);
-    --nav-height: 64px;
+    --toggle-height: 50px;
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; }
@@ -41,7 +41,21 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  #app { min-height: 100%; padding-bottom: calc(80px + var(--safe-bottom)); }
+  #app { min-height: 100%; padding-top: calc(var(--toggle-height) + env(safe-area-inset-top, 0px)); }
+
+  /* ---------- View toggle (top bar) ---------- */
+  .view-toggle {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    display: flex; background: var(--navy);
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .view-toggle button {
+    flex: 1; height: var(--toggle-height); background: none; border: none;
+    color: rgba(250,247,240,0.6); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    border-bottom: 2px solid transparent; font-family: inherit;
+  }
+  .view-toggle button.active { color: var(--gold-light); border-bottom-color: var(--gold-light); }
 
   /* ---------- Header ---------- */
   header {
@@ -201,16 +215,38 @@
   .gmaps-list-sub { display: block; font-size: 0.74rem; color: var(--gold-light); opacity: 0.85; margin-top: 1px; }
   .gmaps-list-arrow { font-size: 0.9rem; color: var(--gold-light); flex-shrink: 0; }
 
-  /* ---------- Map view ---------- */
-  .leaflet-map {
-    height: 66vh; min-height: 420px; border-radius: var(--radius);
-    overflow: hidden; border: 1px solid var(--cream-dark); margin-top: 2px;
+  /* ---------- Map view (full-screen overlay) ---------- */
+  #view-map {
+    display: none;
   }
+  #view-map.active {
+    display: flex; flex-direction: column;
+    position: fixed; left: 0; right: 0; bottom: 0;
+    top: calc(var(--toggle-height) + env(safe-area-inset-top, 0px));
+    z-index: 25; background: var(--cream);
+  }
+  .map-topbar {
+    display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    padding: 10px 12px; background: var(--white); border-bottom: 1px solid var(--cream-dark);
+  }
+  .map-topbar .day-tabs, .map-topbar .guide-filters { flex: 1; margin: 0; padding: 0; }
+  .list-toggle-btn {
+    flex-shrink: 0; background: var(--navy); color: var(--gold-light); border: none;
+    border-radius: 20px; padding: 8px 13px; font-size: 0.78rem; font-weight: 700;
+    white-space: nowrap; font-family: inherit;
+  }
+  .leaflet-map { flex: 1; isolation: isolate; }
   .leaflet-map .leaflet-popup-content-wrapper,
   .leaflet-map .leaflet-popup-tip { background: var(--white); color: var(--ink); }
   .leaflet-marker-icon.place-marker { cursor: pointer; }
+  .map-list-panel {
+    display: none; flex: 1; overflow-y: auto; overscroll-behavior: contain;
+    padding: 14px 16px calc(20px + var(--safe-bottom));
+  }
+  .map-list-panel.active { display: block; }
 
   .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
+  #guideFilters { display: none; }
   .guide-filters::-webkit-scrollbar { display: none; }
   .filter-btn {
     flex: 0 0 auto; background: transparent; color: var(--navy);
@@ -246,7 +282,7 @@
   /* ---------- Place detail panel (docked, non-blocking) ---------- */
   .modal-overlay {
     position: fixed; left: 0; right: 0; z-index: 40;
-    bottom: calc(var(--nav-height) + var(--safe-bottom));
+    bottom: var(--safe-bottom);
     display: flex; justify-content: center;
     pointer-events: none; opacity: 0; transform: translateY(16px);
     transition: opacity 0.22s ease, transform 0.22s ease;
@@ -289,20 +325,6 @@
   .credits-list { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-top: 8px; text-align: center; }
   .credits-list a { color: var(--muted); }
 
-  /* ---------- Bottom nav ---------- */
-  #bottomNav {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-    display: flex; background: var(--navy);
-    padding: 10px 8px calc(10px + var(--safe-bottom));
-  }
-  #bottomNav button {
-    flex: 1; background: none; border: none; display: flex; flex-direction: column;
-    align-items: center; gap: 3px; padding: 5px 0; color: rgba(250,247,240,0.55);
-    font-size: 0.64rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
-  }
-  #bottomNav button .nav-icon { font-size: 1.2rem; filter: grayscale(0.4); }
-  #bottomNav button.active { color: var(--gold-light); }
-  #bottomNav button.active .nav-icon { filter: none; }
 
   /* ---------- Install banner ---------- */
   #installBanner {
@@ -325,6 +347,11 @@
 <body>
 
 <div id="app">
+  <nav class="view-toggle" id="viewToggle">
+    <button class="active" data-view="itinerary">🗓️ Itinerario</button>
+    <button data-view="map">🗺️ Mappa</button>
+  </nav>
+
   <header>
     <div class="eyebrow">Viaggio in Famiglia</div>
     <div class="header-top">
@@ -363,37 +390,11 @@
       </div>
       <div id="days"></div>
     </section>
+  </main>
 
-    <!-- GUIDA -->
-    <section class="view" id="view-guide">
-      <div class="section-title">Guida ai Luoghi</div>
-      <div class="section-sub">Spiagge, cultura e tavole da non perdere</div>
-      <a class="gmaps-list-link" href="https://maps.app.goo.gl/Birqs6gT6SYGb7aC9" target="_blank" rel="noopener">
-        <span class="gmaps-list-icon">🗺️</span>
-        <span class="gmaps-list-text">
-          <span class="gmaps-list-title">Lista completa su Google Maps</span>
-          <span class="gmaps-list-sub">Tutti i luoghi salvati, in un'unica mappa</span>
-        </span>
-        <span class="gmaps-list-arrow">↗</span>
-      </a>
-      <div class="guide-filters" id="guideFilters">
-        <button class="filter-btn active" data-cat="all">Tutti</button>
-        <button class="filter-btn" data-cat="beach">Spiagge</button>
-        <button class="filter-btn" data-cat="culture">Cultura</button>
-        <button class="filter-btn" data-cat="food">Ristoranti</button>
-      </div>
-      <div id="places"></div>
-      <p class="place-note">Descrizioni indicative — verifica orari e disponibilità più vicino alla partenza.</p>
-      <details class="credits">
-        <summary>Crediti fotografici e mappe</summary>
-        <div class="credits-list" id="creditsList"></div>
-      </details>
-    </section>
-
-    <!-- MAPPA -->
-    <section class="view" id="view-map">
-      <div class="section-title">Mappa</div>
-      <div class="section-sub">Seleziona un giorno per vedere le tappe sulla mappa</div>
+  <!-- MAPPA (full-screen overlay, outside the padded/scrolling main) -->
+  <div id="view-map">
+    <div class="map-topbar">
       <div class="day-tabs" id="mapTabs">
         <button class="tab-btn active" data-day="all">Tutti</button>
         <button class="tab-btn" data-day="1">Mar 25</button>
@@ -403,16 +404,32 @@
         <button class="tab-btn" data-day="5">Sab 29</button>
         <button class="tab-btn" data-day="6">Dom 30</button>
       </div>
-      <div id="leafletMap" class="leaflet-map"></div>
-      <p class="place-note">Serve connessione internet per caricare la mappa.</p>
-    </section>
-  </main>
-
-  <nav id="bottomNav">
-    <button data-view="itinerary" class="active"><span class="nav-icon">🗓️</span>Itinerario</button>
-    <button data-view="guide"><span class="nav-icon">📍</span>Guida</button>
-    <button data-view="map"><span class="nav-icon">🗺️</span>Mappa</button>
-  </nav>
+      <div class="guide-filters" id="guideFilters">
+        <button class="filter-btn active" data-cat="all">Tutti</button>
+        <button class="filter-btn" data-cat="beach">Spiagge</button>
+        <button class="filter-btn" data-cat="culture">Cultura</button>
+        <button class="filter-btn" data-cat="food">Ristoranti</button>
+      </div>
+      <button class="list-toggle-btn" id="mapListToggle">☰ Elenco</button>
+    </div>
+    <div id="leafletMap" class="leaflet-map"></div>
+    <div class="map-list-panel" id="mapListPanel">
+      <a class="gmaps-list-link" href="https://maps.app.goo.gl/Birqs6gT6SYGb7aC9" target="_blank" rel="noopener">
+        <span class="gmaps-list-icon">🗺️</span>
+        <span class="gmaps-list-text">
+          <span class="gmaps-list-title">Lista completa su Google Maps</span>
+          <span class="gmaps-list-sub">Tutti i luoghi salvati, in un'unica mappa</span>
+        </span>
+        <span class="gmaps-list-arrow">↗</span>
+      </a>
+      <div id="places"></div>
+      <p class="place-note">Descrizioni indicative — verifica orari e disponibilità più vicino alla partenza.</p>
+      <details class="credits">
+        <summary>Crediti fotografici e mappe</summary>
+        <div class="credits-list" id="creditsList"></div>
+      </details>
+    </div>
+  </div>
 
   <div class="modal-overlay" id="placeModal">
     <div class="modal-sheet">
@@ -822,15 +839,29 @@ document.getElementById('mapTabs').addEventListener('click', (e) => {
   renderMapMarkers();
 });
 
-/* ---------------- BOTTOM NAV ---------------- */
-document.getElementById('bottomNav').addEventListener('click', (e) => {
+/* ---------------- MAP LIST TOGGLE (replaces the old Guida tab) ---------------- */
+let mapListMode = false;
+document.getElementById('mapListToggle').addEventListener('click', () => {
+  mapListMode = !mapListMode;
+  document.getElementById('leafletMap').style.display = mapListMode ? 'none' : '';
+  document.getElementById('mapListPanel').classList.toggle('active', mapListMode);
+  document.getElementById('mapTabs').style.display = mapListMode ? 'none' : '';
+  document.getElementById('guideFilters').style.display = mapListMode ? '' : 'none';
+  document.getElementById('mapListToggle').textContent = mapListMode ? '🗺️ Mappa' : '☰ Elenco';
+  if (!mapListMode && leafletMap) {
+    setTimeout(() => leafletMap.invalidateSize(), 60);
+  }
+});
+
+/* ---------------- VIEW TOGGLE (top bar) ---------------- */
+document.getElementById('viewToggle').addEventListener('click', (e) => {
   const btn = e.target.closest('button');
   if (!btn) return;
   const view = btn.dataset.view;
-  document.querySelectorAll('#bottomNav button').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#viewToggle button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.getElementById(`view-${view}`).classList.add('active');
+  document.getElementById('view-itinerary').classList.toggle('active', view === 'itinerary');
+  document.getElementById('view-map').classList.toggle('active', view === 'map');
   window.scrollTo({ top: 0, behavior: 'instant' });
   if (view === 'map') {
     initMap();
