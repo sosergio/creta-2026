@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
 <title>Creta 2026 · Piano di Viaggio</title>
-<meta name="description" content="Itinerario, guida ai luoghi e checklist per il viaggio in famiglia a Creta">
+<meta name="description" content="Itinerario e guida ai luoghi per il viaggio in famiglia a Creta">
 <meta name="theme-color" content="#0b2545">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -171,16 +171,21 @@
   .badge {
     font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
     padding: 5px 11px; border-radius: 20px; border: 1px solid; background: transparent;
+    font-family: inherit;
   }
+  button.badge { cursor: pointer; }
   .badge.reserved { color: #1a7a4a; border-color: #b8e0c8; background: #f2faf5; }
   .badge.recommended { color: var(--gold); border-color: var(--gold-light); background: #fdf8ec; }
   .badge.special { color: var(--terracotta); border-color: #ecc3b6; background: #fdf3f0; }
 
   .maps { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
-  .maps a {
+  .maps a, .maps button.map-chip {
     font-size: 0.78rem; text-decoration: none; color: var(--navy); font-weight: 600;
     border-bottom: 1px solid var(--gold-light); padding-bottom: 1px;
+    background: none; border-top: none; border-left: none; border-right: none;
+    padding-left: 0; padding-right: 0; font-family: inherit; cursor: pointer;
   }
+  .chip-arrow { opacity: 0.6; margin-left: 1px; font-size: 0.75em; }
 
   /* ---------- Guide ---------- */
   .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
@@ -194,10 +199,12 @@
 
   .place-card {
     background: var(--white); border-radius: var(--radius); margin-bottom: 10px;
-    border: 1px solid var(--cream-dark); overflow: hidden;
+    border: 1px solid var(--cream-dark); overflow: hidden; cursor: pointer;
+    width: 100%; text-align: left; display: block; padding: 0; margin-left: 0; margin-right: 0;
+    font: inherit; color: inherit; -webkit-appearance: none; appearance: none;
   }
   .place-photo { height: 132px; background-size: cover; background-position: center; }
-  .place-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; }
+  .place-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; }
   .place-icon {
     width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
@@ -206,40 +213,50 @@
   .place-meta { flex: 1; min-width: 0; }
   .place-name { font-family: var(--serif); font-weight: 400; font-size: 1.02rem; color: var(--navy); }
   .place-tagline { font-family: var(--serif); font-style: italic; font-size: 0.8rem; color: var(--muted); margin-top: 1px; }
-  .place-chevron { font-size: 0.7rem; color: var(--gold); transition: transform 0.2s; flex-shrink: 0; }
-  .place-card.expanded .place-chevron { transform: rotate(180deg); }
-  .place-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 18px; }
-  .place-card.expanded .place-body { max-height: 520px; padding: 0 18px 18px; }
-  .place-desc { font-size: 0.9rem; line-height: 1.6; color: var(--ink); margin-bottom: 12px; }
+  .place-chevron { font-size: 1rem; color: var(--gold); flex-shrink: 0; }
   .place-tips { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 7px; }
   .place-tips li {
     font-size: 0.82rem; color: var(--ink); border-left: 2px solid var(--gold);
     padding: 2px 0 2px 10px;
   }
-  .place-days { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 10px; font-weight: 700; }
   .place-note { font-family: var(--serif); font-style: italic; font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
+  /* ---------- Place detail modal ---------- */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 50; background: rgba(11,37,69,0.55);
+    display: flex; align-items: flex-end; opacity: 0; pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+  .modal-overlay.open { opacity: 1; pointer-events: auto; }
+  .modal-sheet {
+    background: var(--cream); width: 100%; max-height: 88vh; overflow-y: auto;
+    border-radius: 20px 20px 0 0; position: relative;
+    transform: translateY(100%); transition: transform 0.3s ease;
+    padding-bottom: calc(24px + var(--safe-bottom));
+  }
+  .modal-overlay.open .modal-sheet { transform: translateY(0); }
+  .modal-close {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%; border: none;
+    background: rgba(11,37,69,0.55); color: white; font-size: 1rem; cursor: pointer;
+  }
+  .modal-photo { height: 190px; background-size: cover; background-position: center; background-color: var(--navy-soft); }
+  .modal-content { padding: 20px 22px 4px; }
+  .modal-days { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+  .modal-name { font-family: var(--serif); font-weight: 400; font-size: 1.5rem; color: var(--navy); margin: 0 0 2px; }
+  .modal-tagline { font-family: var(--serif); font-style: italic; font-size: 0.92rem; color: var(--muted); margin-bottom: 16px; }
+  .modal-desc { font-size: 0.94rem; line-height: 1.65; color: var(--ink); margin: 0 0 14px; }
+  .modal-map-link { display: block; text-decoration: none; border-radius: 12px; overflow: hidden; border: 1px solid var(--cream-dark); margin-top: 4px; }
+  .modal-map-img { height: 140px; background-size: cover; background-position: center; background-color: var(--cream-dark); }
+  .modal-map-cta { text-align: center; padding: 9px; background: var(--white); }
+  .modal-map-cta .cta-main { font-weight: 700; font-size: 0.8rem; color: var(--navy); letter-spacing: 0.02em; }
+  .modal-map-cta .cta-sub { font-size: 0.64rem; color: var(--muted); margin-top: 2px; }
 
   .credits { margin-top: 6px; }
   .credits summary { font-size: 0.74rem; color: var(--muted); text-align: center; cursor: pointer; list-style: none; }
   .credits summary::-webkit-details-marker { display: none; }
   .credits-list { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-top: 8px; text-align: center; }
   .credits-list a { color: var(--muted); }
-
-  /* ---------- Checklist ---------- */
-  .checklist-card {
-    background: var(--white); border-radius: var(--radius); padding: 18px 20px;
-    border: 1px solid var(--cream-dark); margin-bottom: 12px;
-  }
-  .checklist-card h3 { margin: 0 0 10px; font-family: var(--serif); font-weight: 400; font-size: 1rem; color: var(--navy); }
-  .checklist-item {
-    display: flex; align-items: center; gap: 10px; padding: 8px 0;
-    font-size: 0.9rem; border-top: 1px solid var(--cream-dark);
-  }
-  .checklist-item:first-of-type { border-top: none; }
-  .checklist-item input { width: 18px; height: 18px; accent-color: var(--gold); flex-shrink: 0; }
-  .checklist-item label.checked { text-decoration: line-through; color: var(--muted); }
-  .progress-wrap { background: var(--cream-dark); border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 18px; }
-  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--terracotta)); width: 0%; transition: width 0.3s; }
 
   /* ---------- Bottom nav ---------- */
   #bottomNav {
@@ -291,7 +308,6 @@
     </div>
     <hr class="rule">
     <div class="info-row">25 – 30 Agosto 2026<span class="sep">·</span>May Beach Hotel, Rethymno<span class="sep">·</span>Aeroporto Heraklion (HER)</div>
-    <div class="group-line">3 famiglie · 4 bambini/adolescenti · 2 nonni</div>
   </header>
 
   <main>
@@ -330,25 +346,37 @@
       <div id="places"></div>
       <p class="place-note">Descrizioni indicative — verifica orari e disponibilità più vicino alla partenza.</p>
       <details class="credits">
-        <summary>Crediti fotografici</summary>
+        <summary>Crediti fotografici e mappe</summary>
         <div class="credits-list" id="creditsList"></div>
       </details>
-    </section>
-
-    <!-- CHECKLIST -->
-    <section class="view" id="view-checklist">
-      <div class="section-title">Checklist</div>
-      <div class="section-sub">Cosa portare per tutta la famiglia</div>
-      <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
-      <div id="checklist"></div>
     </section>
   </main>
 
   <nav id="bottomNav">
     <button data-view="itinerary" class="active"><span class="nav-icon">🗓️</span>Itinerario</button>
     <button data-view="guide"><span class="nav-icon">📍</span>Guida</button>
-    <button data-view="checklist"><span class="nav-icon">✅</span>Checklist</button>
   </nav>
+
+  <div class="modal-overlay" id="placeModal">
+    <div class="modal-sheet">
+      <button class="modal-close" id="modalClose" aria-label="Chiudi">✕</button>
+      <div class="modal-photo" id="modalPhoto"></div>
+      <div class="modal-content">
+        <div class="modal-days" id="modalDays"></div>
+        <h2 class="modal-name" id="modalName"></h2>
+        <div class="modal-tagline" id="modalTagline"></div>
+        <p class="modal-desc" id="modalDesc"></p>
+        <ul class="place-tips" id="modalTips"></ul>
+        <a class="modal-map-link" id="modalMapLink" target="_blank" rel="noopener">
+          <div class="modal-map-img" id="modalMapImg"></div>
+          <div class="modal-map-cta">
+            <div class="cta-main">Apri in Google Maps ↗</div>
+            <div class="cta-sub">Mappa: © OpenStreetMap contributors</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -376,10 +404,10 @@ const days = [
       { label: "Pomeriggio", text: "Relax e giochi in piscina al May Beach Hotel." },
       { label: "Sera", text: "Cena alle 19:00 seguita da passeggiata serale nei vicoli della città vecchia. L'orario è strategico per cenare senza calca con bimbi e nonni." }
     ],
-    badges: [{ type: "reserved", text: "Prenotata 19:00 · Taverna Knossos" }],
+    badges: [{ type: "reserved", text: "Prenotata 19:00 · Taverna Knossos", place: "taverna-knossos" }],
     maps: [
-      { name: "Platanes Beach", q: "Platanes Beach Rethymno" },
-      { name: "Taverna Knossos", q: "Taverna Knossos Rethymno Old Town" }
+      { name: "Platanes Beach", q: "Platanes Beach Rethymno", place: "platanes" },
+      { name: "Taverna Knossos", q: "Taverna Knossos Rethymno Old Town", place: "taverna-knossos" }
     ]
   },
   {
@@ -391,14 +419,14 @@ const days = [
       { label: "Sera", text: "Opzione consigliata (15-20 min): Taverna Goules a Goulediana, ricette tradizionali di agnello e maiale. Opzione Antikristo (45 min): Anogeia o Axos, sui pendii del Monte Psiloritis, per l'autentica cottura dell'agnello al fuoco aperto." }
     ],
     badges: [
-      { type: "recommended", text: "Taverna Goules (Goulediana)" },
-      { type: "special", text: "Antikristo · Anogeia / Axos" }
+      { type: "recommended", text: "Taverna Goules (Goulediana)", place: "taverna-goules" },
+      { type: "special", text: "Antikristo · Anogeia / Axos", place: "antikristo-anogeia-axos" }
     ],
     maps: [
-      { name: "Palazzo di Cnosso", q: "Palace of Knossos" },
-      { name: "Bali Beach", q: "Bali Beach Crete" },
-      { name: "Taverna Goules", q: "Taverna Goules Goulediana" },
-      { name: "Anogeia", q: "Anogeia Crete" },
+      { name: "Palazzo di Cnosso", q: "Palace of Knossos", place: "knossos" },
+      { name: "Bali Beach", q: "Bali Beach Crete", place: "bali" },
+      { name: "Taverna Goules", q: "Taverna Goules Goulediana", place: "taverna-goules" },
+      { name: "Anogeia", q: "Anogeia Crete", place: "anogeia" },
       { name: "Axos", q: "Axos Crete" }
     ]
   },
@@ -410,13 +438,13 @@ const days = [
       { label: "Sera", text: "Cena alle 20:00, con spettacolo Greek Night alle 20:30: musica dal vivo e danze tradizionali cretesi." }
     ],
     badges: [
-      { type: "reserved", text: "Prenotata 20:00 · Taverna Thalassi" },
-      { type: "special", text: "Greek Night 20:30" }
+      { type: "reserved", text: "Prenotata 20:00 · Taverna Thalassi", place: "taverna-thalassi" },
+      { type: "special", text: "Greek Night 20:30", place: "taverna-thalassi" }
     ],
     maps: [
-      { name: "Episkopi Beach", q: "Episkopi Beach Rethymno" },
-      { name: "Margarites", q: "Margarites Crete ceramics village" },
-      { name: "Taverna Thalassi", q: "Taverna Thalassi Rethymno" }
+      { name: "Episkopi Beach", q: "Episkopi Beach Rethymno", place: "episkopi" },
+      { name: "Margarites", q: "Margarites Crete ceramics village", place: "margarites" },
+      { name: "Taverna Thalassi", q: "Taverna Thalassi Rethymno", place: "taverna-thalassi" }
     ]
   },
   {
@@ -427,12 +455,12 @@ const days = [
       { label: "Rientro", text: "Sosta opzionale lungo la gola di Topolia (es. borgo di Elos) per gelato/caffè, poi rientro in hotel per doccia e relax." },
       { label: "Sera", text: "Cena consigliata: Asikiko (ΑΣΙΚΙΚΟ), mezedopoleio rinomato nel centro storico di Rethymno, porzioni abbondanti e atmosfera caratteristica." }
     ],
-    badges: [{ type: "recommended", text: "Asikiko (ΑΣΙΚΙΚΟ) · Rethymno Old Town" }],
+    badges: [{ type: "recommended", text: "Asikiko (ΑΣΙΚΙΚΟ) · Rethymno Old Town", place: "asikiko" }],
     maps: [
-      { name: "Elafonissi Beach", q: "Elafonissi Beach Crete" },
+      { name: "Elafonissi Beach", q: "Elafonissi Beach Crete", place: "elafonissi" },
       { name: "Gola di Topolia", q: "Topolia Gorge Crete" },
       { name: "Elos", q: "Elos Crete" },
-      { name: "Asikiko", q: "Asikiko Rethymno" }
+      { name: "Asikiko", q: "Asikiko Rethymno", place: "asikiko" }
     ]
   },
   {
@@ -444,9 +472,9 @@ const days = [
     ],
     badges: [],
     maps: [
-      { name: "Marathi Beach", q: "Marathi Beach Chania" },
-      { name: "Almyrida", q: "Almyrida Crete" },
-      { name: "Porto Veneziano, Chania", q: "Venetian Harbour Chania" }
+      { name: "Marathi Beach", q: "Marathi Beach Chania", place: "marathi" },
+      { name: "Almyrida", q: "Almyrida Crete", place: "almyrida" },
+      { name: "Porto Veneziano, Chania", q: "Venetian Harbour Chania", place: "chania-old-town" }
     ]
   }
 ];
@@ -455,110 +483,101 @@ const days = [
 const places = [
   {
     cat: "beach", icon: "🏖️", name: "Platanes Beach", tagline: "Comoda, a due passi dall'hotel", days: "Giorno 2",
-    q: "Platanes Beach Rethymno",
+    q: "Platanes Beach Rethymno", slug: "platanes",
     desc: "Spiaggia sabbiosa proprio accanto a Platanes/Missiria, raggiungibile a piedi o in pochi minuti d'auto dal May Beach Hotel. Ingresso in acqua graduale, ideale per i bambini piccoli. Lungomare attrezzato con lettini, ombrelloni e diverse taverne.",
     tips: ["Perfetta per un bagno breve prima o dopo la piscina", "Meno affollata la mattina presto"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Bali Beach", tagline: "Baie riparate e acque turchesi", days: "Giorno 3",
-    q: "Bali Beach Crete",
+    q: "Bali Beach Crete", slug: "bali",
     desc: "Piccolo villaggio sulla costa nord con diverse calette riparate dal vento (Livadi, Karavostasi, Evita), vicine tra loro ma separate da promontori rocciosi. Acque calme e cristalline, ottime per nuotare con i bambini. In alta stagione può affollarsi rapidamente, soprattutto a mezzogiorno.",
     tips: ["Arrivare in mattinata per trovare posto comodo", "Diverse taverne sul mare per il pranzo"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Elafonissi Beach", tagline: "La spiaggia rosa, gioiello di Creta", days: "Giorno 5",
-    q: "Elafonissi Beach Crete", img: "elafonissi",
+    q: "Elafonissi Beach Crete", img: "elafonissi", slug: "elafonissi",
     desc: "Riserva naturale nella punta sud-occidentale dell'isola, famosa per la sabbia rosata e la laguna bassa e trasparente che la separa da un isolotto. Tra le spiagge più fotografate della Grecia: diventa molto affollata dalla tarda mattinata, motivo della partenza anticipata delle 7:30.",
     tips: ["Portare ombrellone: pochissima ombra naturale", "Acqua bassissima nella laguna, sicura per i bimbi", "~2 ore di auto da Rethymno"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Episkopi Beach", tagline: "Ampia, sabbiosa, tranquilla", days: "Giorno 4",
-    q: "Episkopi Beach Rethymno",
+    q: "Episkopi Beach Rethymno", slug: "episkopi",
     desc: "Spiaggia ampia e sabbiosa a est di Rethymno, meno turistica delle spiagge principali, con acque poco profonde e fondale regolare. Buona alternativa rilassata alla piscina dell'hotel.",
     tips: ["Comoda se si preferisce evitare la folla"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Marathi Beach", tagline: "Baia a ferro di cavallo, acqua bassissima", days: "Giorno 6",
-    q: "Marathi Beach Chania", img: "marathi",
+    q: "Marathi Beach Chania", img: "marathi", slug: "marathi",
     desc: "Piccola baia riparata vicino a Chania, con acqua calma e poco profonda quasi ovunque: una delle spiagge più sicure di Creta per i bambini piccoli. Sabbia fine e diverse taverne sul lungomare.",
     tips: ["Ideale per chi ha bimbi molto piccoli"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Almyrida", tagline: "Villaggio costiero rilassato", days: "Giorno 6",
-    q: "Almyrida Crete", img: "almyrida",
+    q: "Almyrida Crete", img: "almyrida", slug: "almyrida",
     desc: "Piccolo villaggio turistico vicino a Chania con spiaggia sabbiosa e acque calme, circondato da taverne e caffè sul mare. Atmosfera vivace, comoda per un ultimo bagno prima di dirigersi a Chania.",
     tips: []
   },
   {
     cat: "culture", icon: "🏛️", name: "Palazzo di Cnosso", tagline: "Il cuore della civiltà minoica", days: "Giorno 3",
-    q: "Palace of Knossos", img: "knossos",
+    q: "Palace of Knossos", img: "knossos", slug: "knossos",
     desc: "Il più importante sito archeologico minoico di Creta, risalente a oltre 3500 anni fa. Ambientazione del mito del Labirinto e del Minotauro, con affreschi ricostruiti e ampi cortili. Pochissima ombra: la visita mattutina evita il caldo peggiore e le code.",
     tips: ["Raccontare il mito del Minotauro rende la visita più coinvolgente per i bimbi", "Acqua e cappellino obbligatori", "Prevedere 1-1h30 di visita con bambini"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Margarites", tagline: "Il borgo della ceramica", days: "Giorno 4",
-    q: "Margarites Crete ceramics village", img: "margarites",
+    q: "Margarites Crete ceramics village", img: "margarites", slug: "margarites",
     desc: "Villaggio collinare vicino a Rethymno con una tradizione ceramista secolare. Le stradine sono piene di botteghe artigiane dove si può vedere il tornio in azione e acquistare pezzi unici.",
     tips: ["Ottimo per una passeggiata tranquilla nel tardo pomeriggio", "Le botteghe sono interessanti anche per i bambini"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Anogeia", tagline: "Musica e tradizione sul Monte Psiloritis", days: "Giorno 3",
-    q: "Anogeia Crete", img: "anogeia",
+    q: "Anogeia Crete", img: "anogeia", slug: "anogeia",
     desc: "Villaggio di montagna sulle pendici dello Psiloritis, noto per la musica tradizionale (lyra cretese), la tessitura e per il ruolo di simbolo della resistenza cretese durante la Seconda Guerra Mondiale. Qui, o nella vicina Axos, si trovano le migliori taverne per l'Antikristo.",
     tips: ["Clima più fresco rispetto alla costa", "Strada di montagna: guida più impegnativa ma paesaggi splendidi"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Rethymno Old Town", tagline: "Vicoli veneziani e la Fortezza", days: "Giorni 2, 5",
-    q: "Rethymno Old Town", img: "rethymno",
+    q: "Rethymno Old Town", img: "rethymno", slug: "rethymno-old-town",
     desc: "Il centro storico di Rethymno mescola architettura veneziana e ottomana: vicoli stretti, balconi in legno, la Fortezza che domina il porto e un porto veneziano pittoresco pieno di taverne.",
     tips: ["Perfetto per una passeggiata serale dopo cena", "Il porto si anima particolarmente al tramonto"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Chania Old Town", tagline: "Il porto veneziano più bello di Creta", days: "Giorno 6",
-    q: "Venetian Harbour Chania", img: "chania",
+    q: "Venetian Harbour Chania", img: "chania", slug: "chania-old-town",
     desc: "Una delle città vecchie più suggestive della Grecia, con il celebre Porto Veneziano, il faro egiziano e stradine piene di botteghe, gallerie e taverne. Ottima per lo shopping serale e una cena finale scenografica.",
     tips: ["Il faro e il porto sono più suggestivi al tramonto", "Molte opzioni shopping, buone anche per un adolescente"]
   },
   {
     cat: "food", icon: "🍽️", name: "Taverna Knossos", tagline: "Cena tranquilla in centro storico · Rethymno", days: "Giorno 2 · Prenotata 19:00",
-    q: "Taverna Knossos Rethymno Old Town",
+    q: "Taverna Knossos Rethymno Old Town", slug: "taverna-knossos",
     desc: "Taverna tradizionale nel cuore della città vecchia di Rethymno, adatta a gruppi numerosi e famiglie. Prenotata per le 19:00 per cenare con calma prima della passeggiata serale.",
     tips: []
   },
   {
     cat: "food", icon: "🍽️", name: "Taverna Goules", tagline: "Agnello e maiale alla brace · Goulediana", days: "Giorno 3 · Consigliata",
-    q: "Taverna Goules Goulediana",
+    q: "Taverna Goules Goulediana", slug: "taverna-goules",
     desc: "Taverna di campagna a 15-20 minuti dall'hotel, famosa per le ricette tradizionali a base di agnello e maiale cotti lentamente. Ambiente informale e rilassato, immerso nel verde.",
     tips: []
   },
   {
     cat: "food", icon: "🔥", name: "Antikristo · Anogeia/Axos", tagline: "Agnello cotto al fuoco aperto", days: "Giorno 3 · Opzione speciale",
-    q: "Anogeia Crete taverna",
+    q: "Anogeia Crete taverna", slug: "antikristo-anogeia-axos",
     desc: "Nei villaggi di montagna di Anogeia o Axos si trovano le taverne che preparano l'Antikristo: agnello intero disposto in cerchio attorno a un fuoco aperto e cotto lentamente per ore. Esperienza gastronomica autentica e scenografica, apprezzata anche dai bambini.",
     tips: []
   },
   {
     cat: "food", icon: "💃", name: "Taverna Thalassi", tagline: "Greek Night con musica e danze", days: "Giorno 4 · Prenotata 20:00",
-    q: "Taverna Thalassi Rethymno",
+    q: "Taverna Thalassi Rethymno", slug: "taverna-thalassi",
     desc: "Cena delle 20:00 seguita, alle 20:30, da una serata a tema con musica dal vivo e danze tradizionali cretesi: un'esperienza coinvolgente per bambini, adolescenti e nonni insieme.",
     tips: []
   },
   {
     cat: "food", icon: "🍽️", name: "Asikiko (ΑΣΙΚΙΚΟ)", tagline: "Mezedopoleio nei vicoli di Rethymno", days: "Giorno 5 · Consigliata",
-    q: "Asikiko Rethymno",
+    q: "Asikiko Rethymno", slug: "asikiko",
     desc: "Rinomato mezedopoleio (piccoli piatti da condividere) nel centro storico di Rethymno, con porzioni abbondanti, ingredienti di qualità e atmosfera caratteristica tra i vicoli.",
     tips: []
   }
 ];
-
-/* ---------------- DATA: CHECKLIST ---------------- */
-const checklistData = {
-  "Documenti": ["Carte d'identità / Passaporti", "Tessere sanitarie (EHIC)", "Patenti (per noleggio auto)", "Conferme voli e hotel", "Assicurazione di viaggio"],
-  "Mare & Sole": ["Costumi da bagno (di scorta)", "Creme solari alta protezione (bimbi)", "Cappellini / Occhiali da sole", "Teli mare", "Braccioli / salvagente bimbi", "Scarpette da scoglio"],
-  "Vestiti": ["Abbigliamento leggero", "Un cambio elegante per le cene", "Costumi extra", "Felpa leggera per le sere"],
-  "Bambini & Nonni": ["Giochi da spiaggia", "Snack per il viaggio", "Farmaci abituali / kit primo soccorso", "Ombrellone / tenda parasole", "Cuscino da viaggio per i nonni"],
-  "Altro": ["Powerbank e cavi di ricarica", "Adattatori di corrente (se necessario)", "Contanti in euro", "Zaino da spiaggia", "Repellente per insetti"]
-};
 
 /* ---------------- DATA: PHOTO CREDITS ---------------- */
 const photoCredits = [
@@ -573,11 +592,16 @@ const photoCredits = [
 ];
 document.getElementById('creditsList').innerHTML = photoCredits
   .map(c => `${c.name}: © <a href="${c.url}" target="_blank" rel="noopener">${c.artist}</a>, ${c.license}`)
-  .join('<br>') + '<br>Foto da Wikimedia Commons.';
+  .join('<br>') + '<br>Foto da Wikimedia Commons.<br>Mappe: © contributori OpenStreetMap.';
 
 /* ---------------- RENDER: ITINERARY ---------------- */
 const daysContainer = document.getElementById('days');
-const badgeHtml = (b) => `<span class="badge ${b.type}">${b.text}</span>`;
+const badgeHtml = (b) => b.place
+  ? `<button type="button" class="badge ${b.type}" data-place="${b.place}">${b.text}</button>`
+  : `<span class="badge ${b.type}">${b.text}</span>`;
+const mapChipHtml = (m) => m.place
+  ? `<button type="button" class="map-chip" data-place="${m.place}">${m.name} <span class="chip-arrow">›</span></button>`
+  : `<a href="${mapLink(m.q)}" target="_blank" rel="noopener">${m.name} <span class="chip-arrow">↗</span></a>`;
 
 days.forEach(day => {
   const card = document.createElement('div');
@@ -599,7 +623,7 @@ days.forEach(day => {
           <div class="text">${s.text}</div>
         </div>
       `).join('')}
-      <div class="maps">${day.maps.map(m => `<a href="${mapLink(m.q)}" target="_blank" rel="noopener">${m.name}</a>`).join('')}</div>
+      <div class="maps">${day.maps.map(mapChipHtml).join('')}</div>
     </div>
   `;
   daysContainer.appendChild(card);
@@ -622,8 +646,10 @@ const placesContainer = document.getElementById('places');
 function renderPlaces(filter) {
   placesContainer.innerHTML = '';
   places.filter(p => filter === 'all' || p.cat === filter).forEach((p) => {
-    const card = document.createElement('div');
+    const card = document.createElement('button');
+    card.type = 'button';
     card.className = 'place-card';
+    card.dataset.place = p.slug;
     const photoHtml = p.img ? `<div class="place-photo" style="background-image:url('images/${p.img}-thumb.jpg')"></div>` : '';
     card.innerHTML = `
       ${photoHtml}
@@ -633,18 +659,9 @@ function renderPlaces(filter) {
           <div class="place-name">${p.name}</div>
           <div class="place-tagline">${p.tagline}</div>
         </div>
-        <div class="place-chevron">▾</div>
-      </div>
-      <div class="place-body">
-        <div class="place-days">${p.days}</div>
-        <div class="place-desc">${p.desc}</div>
-        ${p.tips.length ? `<ul class="place-tips">${p.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
-        <div class="maps"><a href="${mapLink(p.q)}" target="_blank" rel="noopener">Apri in Google Maps</a></div>
+        <div class="place-chevron">›</div>
       </div>
     `;
-    card.querySelector('.place-header').addEventListener('click', () => {
-      card.classList.toggle('expanded');
-    });
     placesContainer.appendChild(card);
   });
 }
@@ -658,43 +675,40 @@ document.getElementById('guideFilters').addEventListener('click', (e) => {
   renderPlaces(btn.dataset.cat);
 });
 
-/* ---------------- RENDER: CHECKLIST ---------------- */
-const checklistContainer = document.getElementById('checklist');
-const STORAGE_KEY = 'creta2026-checklist';
-const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+/* ---------------- PLACE DETAIL MODAL ---------------- */
+const placesBySlug = Object.fromEntries(places.map(p => [p.slug, p]));
+const placeModal = document.getElementById('placeModal');
 
-Object.entries(checklistData).forEach(([category, items]) => {
-  const card = document.createElement('div');
-  card.className = 'checklist-card';
-  card.innerHTML = `<h3>${category}</h3>` + items.map((item, i) => {
-    const id = `${category}-${i}`.replace(/\s/g, '_');
-    const checked = savedState[id] ? 'checked' : '';
-    return `
-      <div class="checklist-item">
-        <input type="checkbox" id="${id}" ${checked}>
-        <label for="${id}" class="${checked ? 'checked' : ''}">${item}</label>
-      </div>
-    `;
-  }).join('');
-  checklistContainer.appendChild(card);
-});
-
-const allCheckboxes = Array.from(document.querySelectorAll('.checklist-item input[type="checkbox"]'));
-function updateProgress() {
-  const total = allCheckboxes.length;
-  const checked = allCheckboxes.filter(cb => cb.checked).length;
-  document.getElementById('progressBar').style.width = total ? `${(checked / total) * 100}%` : '0%';
+function openPlaceDetail(slug) {
+  const p = placesBySlug[slug];
+  if (!p) return;
+  const modalPhoto = document.getElementById('modalPhoto');
+  modalPhoto.style.display = p.img ? '' : 'none';
+  if (p.img) modalPhoto.style.backgroundImage = `url('images/${p.img}.jpg')`;
+  document.getElementById('modalDays').textContent = p.days;
+  document.getElementById('modalName').textContent = p.name;
+  document.getElementById('modalTagline').textContent = p.tagline;
+  document.getElementById('modalDesc').textContent = p.desc;
+  const tipsEl = document.getElementById('modalTips');
+  tipsEl.style.display = p.tips.length ? '' : 'none';
+  tipsEl.innerHTML = p.tips.map(t => `<li>${t}</li>`).join('');
+  document.getElementById('modalMapLink').href = mapLink(p.q);
+  document.getElementById('modalMapImg').style.backgroundImage = `url('images/maps/${p.slug}.jpg')`;
+  placeModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
 }
-allCheckboxes.forEach(cb => {
-  cb.addEventListener('change', () => {
-    cb.nextElementSibling.classList.toggle('checked', cb.checked);
-    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    state[cb.id] = cb.checked;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    updateProgress();
-  });
+function closePlaceDetail() {
+  placeModal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('modalClose').addEventListener('click', closePlaceDetail);
+placeModal.addEventListener('click', (e) => {
+  if (e.target === placeModal) closePlaceDetail();
 });
-updateProgress();
+document.addEventListener('click', (e) => {
+  const el = e.target.closest('[data-place]');
+  if (el) openPlaceDetail(el.dataset.place);
+});
 
 /* ---------------- BOTTOM NAV ---------------- */
 document.getElementById('bottomNav').addEventListener('click', (e) => {

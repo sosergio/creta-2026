@@ -1,5 +1,10 @@
-const CACHE_NAME = "creta2026-v2";
+const CACHE_NAME = "creta2026-v3";
 const IMAGE_SLUGS = ["knossos", "rethymno", "chania", "elafonissi", "margarites", "anogeia", "marathi", "almyrida"];
+const MAP_SLUGS = [
+  "platanes", "bali", "elafonissi", "episkopi", "marathi", "almyrida",
+  "knossos", "margarites", "anogeia", "rethymno-old-town", "chania-old-town",
+  "taverna-knossos", "taverna-goules", "antikristo-anogeia-axos", "taverna-thalassi", "asikiko"
+];
 const ASSETS = [
   "./",
   "./index.html",
@@ -10,7 +15,8 @@ const ASSETS = [
   "./icons/apple-touch-icon.png",
   "./icons/favicon-32.png",
   ...IMAGE_SLUGS.map((s) => `./images/${s}.jpg`),
-  ...IMAGE_SLUGS.map((s) => `./images/${s}-thumb.jpg`)
+  ...IMAGE_SLUGS.map((s) => `./images/${s}-thumb.jpg`),
+  ...MAP_SLUGS.map((s) => `./images/maps/${s}.jpg`)
 ];
 
 self.addEventListener("install", (event) => {
