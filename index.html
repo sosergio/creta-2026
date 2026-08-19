@@ -440,20 +440,21 @@ const days = [
     ]
   },
   {
-    id: 3, num: "03", date: "Giovedì 27 Agosto", title: "Cnosso, Bali Beach & Cena dell'Agnello Tipico", theme: "theme-3", photo: "knossos",
+    id: 3, num: "03", date: "Giovedì 27 Agosto", title: "Bali Beach, Cnosso nel Tardo Pomeriggio & Cena dell'Agnello Tipico", theme: "theme-3", photo: "knossos",
     segments: [
-      { label: "08:30 – 10:30", text: "Visita al Palazzo Minoico di Cnosso al mattino presto, per evitare caldo e code." },
-      { label: "11:00 – 16:00", text: "Bali Beach: baie riparate dal vento, acque calme per i bambini, pranzo in taverna sul mare." },
-      { label: "16:30 – 19:30", text: "Rientro al May Beach Hotel: docce con calma, cambio d'abito e riposo." },
-      { label: "Sera", text: "Opzione consigliata (15-20 min): Taverna Goules a Goulediana, ricette tradizionali di agnello e maiale. Opzione Antikristo (45 min): Anogeia o Axos, sui pendii del Monte Psiloritis, per l'autentica cottura dell'agnello al fuoco aperto." }
+      { label: "09:00 – 13:00", text: "Bali Beach: baie riparate dal vento, acque calme per i bambini, mattinata di mare con calma." },
+      { label: "13:00 – 16:00", text: "Pranzo in taverna sul mare a Bali, poi trasferimento verso Cnosso (~50 min)." },
+      { label: "17:00", text: "Ingresso al Palazzo Minoico di Cnosso — biglietto già prenotato dalla nonna. Il tardo pomeriggio evita comunque il caldo peggiore e regala una luce più morbida." },
+      { label: "Sera", text: "Rientro al May Beach Hotel (~1h): doccia, cambio d'abito e cena. Consigliata Taverna Goules a Goulediana, più vicina e comoda dopo una giornata lunga. Chi preferisce l'Antikristo a Anogeia/Axos deve mettere in conto una cena più tardi, viste le distanze." }
     ],
     badges: [
+      { type: "reserved", text: "Ingresso prenotato 17:00 · Cnosso", place: "knossos" },
       { type: "recommended", text: "Taverna Goules (Goulediana)", place: "taverna-goules" },
       { type: "special", text: "Antikristo · Anogeia / Axos", place: "antikristo-anogeia-axos" }
     ],
     maps: [
-      { name: "Palazzo di Cnosso", q: "Palace of Knossos", place: "knossos" },
       { name: "Bali Beach", q: "Bali Beach Crete", place: "bali" },
+      { name: "Palazzo di Cnosso", q: "Palace of Knossos", place: "knossos" },
       { name: "Taverna Goules", q: "Taverna Goules Goulediana", place: "taverna-goules" },
       { name: "Anogeia", q: "Anogeia Crete", place: "anogeia" },
       { name: "Axos", q: "Axos Crete" }
@@ -547,10 +548,10 @@ const places = [
     tips: []
   },
   {
-    cat: "culture", icon: "🏛️", name: "Palazzo di Cnosso", tagline: "Il cuore della civiltà minoica", days: "Giorno 3",
+    cat: "culture", icon: "🏛️", name: "Palazzo di Cnosso", tagline: "Il cuore della civiltà minoica", days: "Giorno 3 · Ingresso prenotato 17:00",
     q: "Palace of Knossos", img: "knossos", slug: "knossos",
-    desc: "Il più importante sito archeologico minoico di Creta, risalente a oltre 3500 anni fa. Ambientazione del mito del Labirinto e del Minotauro, con affreschi ricostruiti e ampi cortili. Pochissima ombra: la visita mattutina evita il caldo peggiore e le code.",
-    tips: ["Raccontare il mito del Minotauro rende la visita più coinvolgente per i bimbi", "Acqua e cappellino obbligatori", "Prevedere 1-1h30 di visita con bambini"]
+    desc: "Il più importante sito archeologico minoico di Creta, risalente a oltre 3500 anni fa. Ambientazione del mito del Labirinto e del Minotauro, con affreschi ricostruiti e ampi cortili. Ingresso già prenotato per le 17:00: il tardo pomeriggio evita comunque il caldo peggiore e regala una luce più morbida, pur restando pieno giorno.",
+    tips: ["Raccontare il mito del Minotauro rende la visita più coinvolgente per i bimbi", "Acqua e cappellino comunque consigliati", "Prevedere 1-1h30 di visita con bambini", "Il sito chiude in serata: non serve affrettarsi"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Margarites", tagline: "Il borgo della ceramica", days: "Giorno 4",
