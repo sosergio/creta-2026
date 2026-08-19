@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Creta 2026 🇬🇷 Piano di Viaggio</title>
+<style>
+  :root {
+    --blue: #0077b6;
+    --blue-dark: #023e73;
+    --sand: #fef3c7;
+    --sand-dark: #fde68a;
+    --white: #ffffff;
+    --ink: #1e293b;
+    --muted: #64748b;
+    --green: #16a34a;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: linear-gradient(180deg, var(--sand) 0%, #fffdf7 220px, #f8fafc 100%);
+    color: var(--ink);
+    padding-bottom: 40px;
+  }
+  header {
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    color: white;
+    padding: 28px 20px 22px;
+    border-radius: 0 0 28px 28px;
+    box-shadow: 0 6px 20px rgba(0,119,182,0.25);
+  }
+  header h1 { margin: 0 0 4px; font-size: 1.6rem; }
+  header .subtitle { opacity: 0.9; font-size: 0.95rem; margin-bottom: 16px; }
+  .info-card {
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: grid;
+    gap: 8px;
+    font-size: 0.9rem;
+  }
+  .info-row { display: flex; align-items: center; gap: 8px; }
+  .info-row .icon { font-size: 1.1rem; }
+  .group-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .chip {
+    background: rgba(255,255,255,0.18);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+  }
+
+  nav.tabs {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #fffdf7ee;
+    backdrop-filter: blur(6px);
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 14px 16px;
+    border-bottom: 1px solid #eee;
+    scrollbar-width: none;
+  }
+  nav.tabs::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    flex: 0 0 auto;
+    border: none;
+    background: var(--white);
+    color: var(--blue-dark);
+    border: 1.5px solid var(--sand-dark);
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .tab-btn.active {
+    background: var(--blue);
+    color: white;
+    border-color: var(--blue);
+  }
+
+  main { padding: 16px; max-width: 640px; margin: 0 auto; }
+
+  .day-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border-left: 5px solid var(--blue);
+  }
+  .day-card h2 { margin: 0 0 2px; font-size: 1.1rem; color: var(--blue-dark); }
+  .day-card .day-title { margin: 0 0 12px; font-size: 0.85rem; color: var(--muted); font-weight: 600; }
+
+  .segment { margin-bottom: 12px; }
+  .segment .label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .segment .text { font-size: 0.92rem; line-height: 1.45; }
+
+  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+  .badge {
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .badge.reserved { background: #dcfce7; color: var(--green); }
+  .badge.recommended { background: var(--sand); color: #92400e; }
+  .badge.special { background: #ede9fe; color: #6d28d9; }
+
+  .maps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .maps a {
+    font-size: 0.78rem;
+    text-decoration: none;
+    color: var(--blue-dark);
+    background: #eef6fb;
+    border: 1px solid #d7ecf7;
+    padding: 5px 10px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .checklist-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    margin-bottom: 14px;
+  }
+  .checklist-card h3 {
+    margin: 0 0 10px;
+    font-size: 0.92rem;
+    color: var(--blue-dark);
+  }
+  .checklist-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item input {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--blue);
+    flex-shrink: 0;
+  }
+  .checklist-item label.checked { text-decoration: line-through; color: var(--muted); }
+
+  .progress-wrap {
+    background: #f1f5f9;
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), #00b4d8);
+    width: 0%;
+    transition: width 0.3s;
+  }
+
+  footer {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    padding: 24px 16px 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌊 Creta 2026</h1>
+  <div class="subtitle">Viaggio in famiglia · 25–30 Agosto 2026</div>
+  <div class="info-card">
+    <div class="info-row"><span class="icon">🏨</span> May Beach Hotel — Missiria, Rethymno</div>
+    <div class="info-row"><span class="icon">✈️</span> Aeroporto di Heraklion (HER)</div>
+    <div class="info-row"><span class="icon">🚗</span> Auto a noleggio ritirate all'arrivo</div>
+    <div class="group-chips">
+      <span class="chip">👨‍👩‍👧‍👦 Famiglia 1 (2 bimbi 5-9)</span>
+      <span class="chip">👨‍👩‍👦 Famiglia 2 (1 teen)</span>
+      <span class="chip">👨‍👩‍👧‍👦 Famiglia 3 (2 bimbi 5-9)</span>
+      <span class="chip">👴👵 Nonni</span>
+    </div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab-btn active" data-day="all">Tutti</button>
+  <button class="tab-btn" data-day="1">Mar 25</button>
+  <button class="tab-btn" data-day="2">Mer 26</button>
+  <button class="tab-btn" data-day="3">Gio 27</button>
+  <button class="tab-btn" data-day="4">Ven 28</button>
+  <button class="tab-btn" data-day="5">Sab 29</button>
+  <button class="tab-btn" data-day="6">Dom 30</button>
+</nav>
+
+<main>
+  <div id="days"></div>
+
+  <div class="section-title">🎒 Checklist da Portare</div>
+  <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  <div id="checklist"></div>
+</main>
+
+<footer>Creta 2026 · Buon viaggio! 🇬🇷</footer>
+
+<script>
+const mapLink = (q) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+
+const days = [
+  {
+    id: 1, date: "Martedì 25 Agosto", title: "Arrivo & Assestamento",
+    segments: [
+      { label: "Mattina / Primo Pomeriggio", text: "Arrivo all'Aeroporto di Heraklion (HER), ritiro delle auto a noleggio." },
+      { label: "Pomeriggio", text: "Tragitto Heraklion → Rethymno (~1h). Check-in al May Beach Hotel, sistemazione e primo bagno in piscina." },
+      { label: "Sera", text: "Cena informale nei dintorni dell'hotel per far riposare bimbi e nonni dopo il viaggio." }
+    ],
+    badges: [],
+    maps: [
+      { name: "Aeroporto Heraklion (HER)", q: "Heraklion International Airport Nikos Kazantzakis" },
+      { name: "May Beach Hotel", q: "May Beach Hotel Missiria Rethymno" }
+    ]
+  },
+  {
+    id: 2, date: "Mercoledì 26 Agosto", title: "Mare Locale, Piscina e Rethymno Old Town",
+    segments: [
+      { label: "Mattina", text: "Bagno a Platanes Beach, comoda e raggiungibile a piedi/auto dall'hotel." },
+      { label: "Pomeriggio", text: "Relax e giochi in piscina al May Beach Hotel." },
+      { label: "Sera", text: "Cena alle 19:00 seguita da passeggiata serale nei vicoli della città vecchia. L'orario è strategico per cenare senza calca con bimbi e nonni." }
+    ],
+    badges: [{ type: "reserved", text: "Cena prenotata 19:00 · Taverna Knossos" }],
+    maps: [
+      { name: "Platanes Beach", q: "Platanes Beach Rethymno" },
+      { name: "Taverna Knossos", q: "Taverna Knossos Rethymno Old Town" }
+    ]
+  },
+  {
+    id: 3, date: "Giovedì 27 Agosto", title: "Cnosso, Bali Beach & Cena dell'Agnello Tipico",
+    segments: [
+      { label: "08:30 – 10:30", text: "Visita al Palazzo Minoico di Cnosso al mattino presto, per evitare caldo e code." },
+      { label: "11:00 – 16:00", text: "Bali Beach: baie riparate dal vento, acque calme per i bambini, pranzo in taverna sul mare." },
+      { label: "16:30 – 19:30", text: "Rientro al May Beach Hotel: docce con calma, cambio d'abito e riposo." },
+      { label: "Sera", text: "Opzione consigliata (15-20 min): Taverna Goules a Goulediana, ricette tradizionali di agnello e maiale. Opzione Antikristo (45 min): Anogeia o Axos, sui pendii del Monte Psiloritis, per l'autentica cottura dell'agnello al fuoco aperto." }
+    ],
+    badges: [
+      { type: "recommended", text: "Taverna Goules (Goulediana)" },
+      { type: "special", text: "🔥 Antikristo · Anogeia / Axos" }
+    ],
+    maps: [
+      { name: "Palazzo di Cnosso", q: "Palace of Knossos" },
+      { name: "Bali Beach", q: "Bali Beach Crete" },
+      { name: "Taverna Goules", q: "Taverna Goules Goulediana" },
+      { name: "Anogeia", q: "Anogeia Crete" },
+      { name: "Axos", q: "Axos Crete" }
+    ]
+  },
+  {
+    id: 4, date: "Venerdì 28 Agosto", title: "Relax, Ceramiche & Serata Cretese",
+    segments: [
+      { label: "Mattina", text: "Bagno a Episkopi Beach (ampia e sabbiosa) oppure relax in piscina al May Beach Hotel." },
+      { label: "Tardo Pomeriggio", text: "Visita al borgo di Margarites, famoso per le botteghe storiche di ceramica artigianale." },
+      { label: "Sera", text: "Cena alle 20:00, con spettacolo Greek Night alle 20:30: musica dal vivo e danze tradizionali cretesi." }
+    ],
+    badges: [
+      { type: "reserved", text: "Cena prenotata 20:00 · Taverna Thalassi" },
+      { type: "special", text: "💃 Greek Night 20:30" }
+    ],
+    maps: [
+      { name: "Episkopi Beach", q: "Episkopi Beach Rethymno" },
+      { name: "Margarites", q: "Margarites Crete ceramics village" },
+      { name: "Taverna Thalassi", q: "Taverna Thalassi Rethymno" }
+    ]
+  },
+  {
+    id: 5, date: "Sabato 29 Agosto", title: "Spiaggia Rosa di Elafonissi & Asikiko",
+    segments: [
+      { label: "07:30 Partenza Tassativa", text: "Partenza di prima mattina per Elafonissi (~2h di strada), per arrivare prima del grande flusso turistico." },
+      { label: "Mattina / Pomeriggio", text: "Relax sulla spiaggia rosa e bagno nella laguna dalle acque basse e trasparenti." },
+      { label: "Rientro", text: "Sosta opzionale lungo la gola di Topolia (es. borgo di Elos) per gelato/caffè, poi rientro in hotel per doccia e relax." },
+      { label: "Sera", text: "Cena consigliata: Asikiko (ΑΣΙΚΙΚΟ), mezedopoleio rinomato nel centro storico di Rethymno, porzioni abbondanti e atmosfera caratteristica." }
+    ],
+    badges: [{ type: "recommended", text: "Asikiko (ΑΣΙΚΙΚΟ) · Rethymno Old Town" }],
+    maps: [
+      { name: "Elafonissi Beach", q: "Elafonissi Beach Crete" },
+      { name: "Gola di Topolia", q: "Topolia Gorge Crete" },
+      { name: "Elos", q: "Elos Crete" },
+      { name: "Asikiko", q: "Asikiko Rethymno" }
+    ]
+  },
+  {
+    id: 6, date: "Domenica 30 Agosto", title: "Mare Tranquillo & Serata a Chania",
+    segments: [
+      { label: "Mattina", text: "Spiaggia di Marathi o Almyrida (zona Chania), acque bassissime e calme, ideali per famiglie." },
+      { label: "Pomeriggio", text: "Rientro in hotel per ultimare le valigie e riposare." },
+      { label: "Tardo Pomeriggio / Sera", text: "Trasferimento a Chania: passeggiata al Porto Veneziano, shopping per l'adolescente, cena finale nei vicoli della Città Vecchia." }
+    ],
+    badges: [],
+    maps: [
+      { name: "Marathi Beach", q: "Marathi Beach Chania" },
+      { name: "Almyrida", q: "Almyrida Crete" },
+      { name: "Porto Veneziano, Chania", q: "Venetian Harbour Chania" }
+    ]
+  }
+];
+
+const checklistData = {
+  "📄 Documenti": ["Carte d'identità / Passaporti", "Tessere sanitarie (EHIC)", "Patenti (per noleggio auto)", "Conferme voli e hotel", "Assicurazione di viaggio"],
+  "☀️ Mare & Sole": ["Costumi da bagno (di scorta)", "Creme solari alta protezione (bimbi)", "Cappellini / Occhiali da sole", "Teli mare", "Braccioli / salvagente bimbi", "Scarpette da scoglio"],
+  "👕 Vestiti": ["Abbigliamento leggero", "Un cambio elegante per le cene", "Costumi extra", "Felpa leggera per le sere"],
+  "👶 Bambini & Nonni": ["Giochi da spiaggia", "Snack per il viaggio", "Farmaci abituali / kit primo soccorso", "Ombrellone / tenda parasole", "Cuscino da viaggio per i nonni"],
+  "🎒 Altro": ["Powerbank e cavi di ricarica", "Adattatori di corrente (se necessario)", "Contanti in euro", "Zaino da spiaggia", "Repellente per insetti"]
+};
+
+const daysContainer = document.getElementById('days');
+
+function badgeHtml(b) {
+  return `<span class="badge ${b.type}">${b.text}</span>`;
+}
+
+days.forEach(day => {
+  const card = document.createElement('div');
+  card.className = 'day-card';
+  card.dataset.day = day.id;
+  card.innerHTML = `
+    <p class="day-title">${day.date}</p>
+    <h2>${day.title}</h2>
+    ${day.badges.length ? `<div class="badges">${day.badges.map(badgeHtml).join('')}</div>` : ''}
+    ${day.segments.map(s => `
+      <div class="segment">
+        <div class="label">${s.label}</div>
+        <div class="text">${s.text}</div>
+      </div>
+    `).join('')}
+    <div class="maps">${day.maps.map(m => `<a href="${mapLink(m.q)}" target="_blank" rel="noopener">📍 ${m.name}</a>`).join('')}</div>
+  `;
+  daysContainer.appendChild(card);
+});
+
+document.getElementById('tabs').addEventListener('click', (e) => {
+  const btn = e.target.closest('.tab-btn');
+  if (!btn) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const day = btn.dataset.day;
+  document.querySelectorAll('.day-card').forEach(card => {
+    card.style.display = (day === 'all' || card.dataset.day === day) ? '' : 'none';
+  });
+});
+
+const checklistContainer = document.getElementById('checklist');
+const STORAGE_KEY = 'creta2026-checklist';
+const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+let allCheckboxes = [];
+
+Object.entries(checklistData).forEach(([category, items]) => {
+  const card = document.createElement('div');
+  card.className = 'checklist-card';
+  const catHtml = `<h3>${category}</h3>` + items.map((item, i) => {
+    const id = `${category}-${i}`.replace(/\s/g, '_');
+    const checked = savedState[id] ? 'checked' : '';
+    return `
+      <div class="checklist-item">
+        <input type="checkbox" id="${id}" ${checked}>
+        <label for="${id}" class="${checked ? 'checked' : ''}">${item}</label>
+      </div>
+    `;
+  }).join('');
+  card.innerHTML = catHtml;
+  checklistContainer.appendChild(card);
+});
+
+allCheckboxes = Array.from(document.querySelectorAll('.checklist-item input[type="checkbox"]'));
+
+function updateProgress() {
+  const total = allCheckboxes.length;
+  const checked = allCheckboxes.filter(cb => cb.checked).length;
+  document.getElementById('progressBar').style.width = total ? `${(checked / total) * 100}%` : '0%';
+}
+
+allCheckboxes.forEach(cb => {
+  cb.addEventListener('change', () => {
+    const label = cb.nextElementSibling;
+    label.classList.toggle('checked', cb.checked);
+    const state = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    state[cb.id] = cb.checked;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    updateProgress();
+  });
+});
+
+updateProgress();
+</script>
+
+</body>
+</html>
