@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0">
-<title>Creta 2026 🇬🇷 Piano di Viaggio</title>
+<title>Creta 2026 · Piano di Viaggio</title>
 <meta name="description" content="Itinerario, guida ai luoghi e checklist per il viaggio in famiglia a Creta">
-<meta name="theme-color" content="#0077b6">
+<meta name="theme-color" content="#0b2545">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Creta 2026">
@@ -14,249 +14,284 @@
 <link rel="icon" href="icons/favicon-32.png">
 <style>
   :root {
-    --blue: #0077b6;
-    --blue-dark: #023e73;
-    --blue-light: #00b4d8;
-    --sand: #fef3c7;
-    --sand-dark: #fde68a;
+    --navy: #0b2545;
+    --navy-soft: #16345f;
+    --cream: #faf7f0;
+    --cream-dark: #f1ead9;
     --white: #ffffff;
-    --ink: #1e293b;
-    --muted: #64748b;
-    --green: #16a34a;
-    --purple: #6d28d9;
-    --radius: 18px;
+    --gold: #a67c27;
+    --gold-light: #e8d9b5;
+    --terracotta: #b5533c;
+    --ink: #24304a;
+    --muted: #7c7263;
+    --serif: Georgia, "Iowan Old Style", "Palatino Linotype", "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius: 4px;
     --safe-bottom: env(safe-area-inset-bottom, 0px);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body { height: 100%; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background: #f8fafc;
+    font-family: var(--sans);
+    background: var(--cream);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
   }
 
-  #app { min-height: 100%; padding-bottom: calc(78px + var(--safe-bottom)); }
+  #app { min-height: 100%; padding-bottom: calc(80px + var(--safe-bottom)); }
 
   /* ---------- Header ---------- */
   header {
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark) 70%);
-    color: white;
-    padding: 20px 18px 20px;
-    border-radius: 0 0 26px 26px;
-    box-shadow: 0 8px 24px rgba(2,62,115,0.25);
+    background: linear-gradient(160deg, var(--navy) 0%, var(--navy-soft) 100%);
+    color: var(--cream);
+    padding: 30px 22px 24px;
     position: relative;
     overflow: hidden;
   }
-  header::after {
+  header::before {
     content: "";
-    position: absolute;
-    right: -40px; top: -40px;
-    width: 160px; height: 160px;
-    background: radial-gradient(circle, rgba(255,255,255,0.14), transparent 70%);
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 85% -10%, rgba(230,201,124,0.16), transparent 55%),
+      radial-gradient(ellipse at 0% 110%, rgba(230,201,124,0.10), transparent 55%);
+    pointer-events: none;
   }
-  .header-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
-  header h1 { margin: 0 0 2px; font-size: 1.45rem; letter-spacing: -0.01em; }
-  header .subtitle { opacity: 0.88; font-size: 0.88rem; }
-  .countdown {
-    background: rgba(255,255,255,0.16);
-    border-radius: 14px;
-    padding: 6px 10px;
-    text-align: center;
-    flex-shrink: 0;
-    min-width: 62px;
+  .eyebrow {
+    font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em;
+    color: var(--gold-light); font-weight: 600; margin-bottom: 10px;
   }
-  .countdown .num { font-size: 1.15rem; font-weight: 800; line-height: 1; }
-  .countdown .txt { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; opacity: 0.85; }
+  .header-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 14px; position: relative; }
+  header h1 {
+    margin: 0; font-family: var(--serif); font-weight: 400; font-size: 2.1rem;
+    letter-spacing: 0.01em; line-height: 1.05;
+  }
+  header .tagline {
+    font-family: var(--serif); font-style: italic; font-size: 0.98rem;
+    color: var(--gold-light); margin-top: 6px; opacity: 0.95;
+  }
+  .rule { border: none; border-top: 1px solid rgba(230,201,124,0.35); margin: 18px 0 16px; }
 
-  .info-card {
-    background: rgba(255,255,255,0.12);
-    border-radius: var(--radius);
-    padding: 13px 15px;
-    display: grid;
-    gap: 7px;
-    font-size: 0.86rem;
-    margin-top: 14px;
+  .countdown {
+    text-align: right; flex-shrink: 0; position: relative;
   }
-  .info-row { display: flex; align-items: center; gap: 8px; }
-  .group-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
-  .chip {
-    background: rgba(255,255,255,0.18);
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 0.74rem;
+  .countdown .num { font-family: var(--serif); font-size: 1.6rem; line-height: 1; color: var(--gold-light); }
+  .countdown .txt {
+    font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.14em;
+    opacity: 0.8; margin-top: 2px;
+  }
+
+  .info-row {
+    font-size: 0.82rem; color: var(--cream); opacity: 0.92;
+    display: flex; flex-wrap: wrap; gap: 6px 0; position: relative;
+  }
+  .info-row .sep { margin: 0 8px; opacity: 0.5; }
+  .group-line {
+    font-size: 0.76rem; color: var(--gold-light); margin-top: 10px;
+    letter-spacing: 0.02em; position: relative; opacity: 0.9;
   }
 
   /* ---------- Views ---------- */
-  main { padding: 16px; max-width: 640px; margin: 0 auto; }
-  .view { display: none; animation: fadein 0.25s ease; }
+  main { padding: 18px 16px; max-width: 640px; margin: 0 auto; }
+  .view { display: none; animation: fadein 0.3s ease; }
   .view.active { display: block; }
   @keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
 
+  .section-title {
+    font-family: var(--serif); font-size: 1.3rem; font-weight: 400; color: var(--navy);
+    margin: 4px 0 4px;
+  }
+  .section-sub {
+    font-family: var(--serif); font-style: italic; font-size: 0.86rem; color: var(--muted);
+    margin: 0 0 16px;
+  }
+
   /* ---------- Day tabs (Itinerario) ---------- */
   .day-tabs {
-    display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px;
+    display: flex; gap: 6px; overflow-x: auto; padding: 2px 2px 14px;
     scrollbar-width: none; margin: -2px -2px 0;
   }
   .day-tabs::-webkit-scrollbar { display: none; }
   .tab-btn {
-    flex: 0 0 auto; background: var(--white); color: var(--blue-dark);
-    border: 1.5px solid var(--sand-dark); padding: 8px 14px; border-radius: 20px;
-    font-size: 0.84rem; font-weight: 600; white-space: nowrap;
+    flex: 0 0 auto; background: transparent; color: var(--navy);
+    border: 1px solid var(--cream-dark); padding: 7px 14px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.03em; white-space: nowrap;
   }
-  .tab-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+  .tab-btn.active { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
 
+  /* ---------- Day card ---------- */
   .day-card {
-    background: var(--white); border-radius: var(--radius); padding: 18px;
-    margin-bottom: 14px; box-shadow: 0 2px 12px rgba(15,23,42,0.06);
-    border-left: 5px solid var(--blue);
+    background: var(--white); border-radius: var(--radius); margin-bottom: 22px;
+    box-shadow: 0 4px 18px rgba(11,37,69,0.08); overflow: hidden;
+    border: 1px solid var(--cream-dark);
   }
-  .day-card h2 { margin: 0 0 2px; font-size: 1.08rem; color: var(--blue-dark); }
-  .day-title { margin: 0 0 12px; font-size: 0.82rem; color: var(--muted); font-weight: 700; }
+  .day-hero {
+    padding: 22px 20px 18px; color: var(--white); position: relative; overflow: hidden;
+    min-height: 118px; display: flex; flex-direction: column; justify-content: flex-end;
+  }
+  .day-hero::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 100% 0%, rgba(255,255,255,0.18), transparent 60%);
+    pointer-events: none;
+  }
+  .day-hero.has-photo {
+    min-height: 176px; background-size: cover; background-position: center;
+  }
+  .day-hero.has-photo::after { display: none; }
+  .day-hero .day-num, .day-hero h2, .day-hero .day-date { position: relative; z-index: 1; }
+  .theme-1 { background: linear-gradient(135deg, #0b2545, #0077b6); }
+  .theme-2 { background: linear-gradient(135deg, #0077b6, #00b4d8); }
+  .theme-3 { background: linear-gradient(135deg, #8a3b24, #c97b3d); }
+  .theme-4 { background: linear-gradient(135deg, #5b3a29, #6d28d9); }
+  .theme-5 { background: linear-gradient(135deg, #c97b8a, #b5533c); }
+  .theme-6 { background: linear-gradient(135deg, #a67c27, #0b2545); }
 
-  .segment { margin-bottom: 12px; }
+  .day-num {
+    font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.2em;
+    opacity: 0.85; position: relative; margin-bottom: 6px;
+  }
+  .day-hero h2 {
+    font-family: var(--serif); font-weight: 400; font-size: 1.3rem; margin: 0 0 2px; position: relative;
+  }
+  .day-hero .day-date {
+    font-size: 0.78rem; opacity: 0.85; position: relative;
+  }
+
+  .day-body { padding: 18px 20px 20px; }
+
+  .segment { padding: 12px 0; border-top: 1px solid var(--cream-dark); }
+  .segment:first-child { border-top: none; padding-top: 0; }
   .segment .label {
-    font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--muted); font-weight: 700; margin-bottom: 3px;
+    font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--gold); font-weight: 700; margin-bottom: 4px;
   }
-  .segment .text { font-size: 0.92rem; line-height: 1.48; }
+  .segment .text { font-size: 0.92rem; line-height: 1.55; color: var(--ink); }
 
-  .badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
-  .badge { font-size: 0.74rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; }
-  .badge.reserved { background: #dcfce7; color: var(--green); }
-  .badge.recommended { background: var(--sand); color: #92400e; }
-  .badge.special { background: #ede9fe; color: var(--purple); }
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 14px; }
+  .badge {
+    font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 5px 11px; border-radius: 20px; border: 1px solid; background: transparent;
+  }
+  .badge.reserved { color: #1a7a4a; border-color: #b8e0c8; background: #f2faf5; }
+  .badge.recommended { color: var(--gold); border-color: var(--gold-light); background: #fdf8ec; }
+  .badge.special { color: var(--terracotta); border-color: #ecc3b6; background: #fdf3f0; }
 
-  .maps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .maps { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
   .maps a {
-    font-size: 0.78rem; text-decoration: none; color: var(--blue-dark);
-    background: #eef6fb; border: 1px solid #d7ecf7; padding: 5px 10px; border-radius: 10px;
-    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 0.78rem; text-decoration: none; color: var(--navy); font-weight: 600;
+    border-bottom: 1px solid var(--gold-light); padding-bottom: 1px;
   }
 
   /* ---------- Guide ---------- */
-  .guide-filters { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
+  .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
   .guide-filters::-webkit-scrollbar { display: none; }
   .filter-btn {
-    flex: 0 0 auto; background: var(--white); color: var(--blue-dark);
-    border: 1.5px solid var(--sand-dark); padding: 8px 14px; border-radius: 20px;
-    font-size: 0.84rem; font-weight: 600; white-space: nowrap;
+    flex: 0 0 auto; background: transparent; color: var(--navy);
+    border: 1px solid var(--cream-dark); padding: 7px 14px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; white-space: nowrap;
   }
-  .filter-btn.active { background: var(--blue); color: white; border-color: var(--blue); }
+  .filter-btn.active { background: var(--navy); color: var(--gold-light); border-color: var(--navy); }
 
   .place-card {
-    background: var(--white); border-radius: var(--radius); margin-bottom: 12px;
-    box-shadow: 0 2px 12px rgba(15,23,42,0.06); overflow: hidden;
+    background: var(--white); border-radius: var(--radius); margin-bottom: 10px;
+    border: 1px solid var(--cream-dark); overflow: hidden;
   }
-  .place-header {
-    display: flex; align-items: center; gap: 12px; padding: 15px 16px; cursor: pointer;
-  }
+  .place-photo { height: 132px; background-size: cover; background-position: center; }
+  .place-header { display: flex; align-items: center; gap: 14px; padding: 16px 18px; cursor: pointer; }
   .place-icon {
-    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+    width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 1.15rem;
+    border: 1px solid var(--gold-light); background: var(--cream);
   }
-  .place-icon.beach { background: #e0f2fe; }
-  .place-icon.culture { background: #fef3c7; }
-  .place-icon.food { background: #fce7f3; }
   .place-meta { flex: 1; min-width: 0; }
-  .place-name { font-weight: 700; font-size: 0.96rem; color: var(--ink); }
-  .place-tagline { font-size: 0.8rem; color: var(--muted); margin-top: 1px; }
-  .place-chevron { font-size: 0.75rem; color: var(--muted); transition: transform 0.2s; flex-shrink: 0; }
+  .place-name { font-family: var(--serif); font-weight: 400; font-size: 1.02rem; color: var(--navy); }
+  .place-tagline { font-family: var(--serif); font-style: italic; font-size: 0.8rem; color: var(--muted); margin-top: 1px; }
+  .place-chevron { font-size: 0.7rem; color: var(--gold); transition: transform 0.2s; flex-shrink: 0; }
   .place-card.expanded .place-chevron { transform: rotate(180deg); }
-  .place-body {
-    max-height: 0; overflow: hidden; transition: max-height 0.25s ease;
-    padding: 0 16px;
-  }
-  .place-card.expanded .place-body { max-height: 480px; padding: 0 16px 16px; }
-  .place-desc { font-size: 0.9rem; line-height: 1.55; color: var(--ink); margin-bottom: 10px; }
-  .place-tips { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 6px; }
+  .place-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; padding: 0 18px; }
+  .place-card.expanded .place-body { max-height: 520px; padding: 0 18px 18px; }
+  .place-desc { font-size: 0.9rem; line-height: 1.6; color: var(--ink); margin-bottom: 12px; }
+  .place-tips { list-style: none; margin: 0 0 14px; padding: 0; display: grid; gap: 7px; }
   .place-tips li {
-    font-size: 0.83rem; color: var(--blue-dark); background: #eef6fb;
-    border-radius: 10px; padding: 7px 10px; display: flex; gap: 6px;
+    font-size: 0.82rem; color: var(--ink); border-left: 2px solid var(--gold);
+    padding: 2px 0 2px 10px;
   }
-  .place-days { font-size: 0.75rem; color: var(--muted); margin-bottom: 10px; }
+  .place-days { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gold); margin-bottom: 10px; font-weight: 700; }
+  .place-note { font-family: var(--serif); font-style: italic; font-size: 0.78rem; color: var(--muted); text-align: center; margin-top: 14px; }
+
+  .credits { margin-top: 6px; }
+  .credits summary { font-size: 0.74rem; color: var(--muted); text-align: center; cursor: pointer; list-style: none; }
+  .credits summary::-webkit-details-marker { display: none; }
+  .credits-list { font-size: 0.72rem; color: var(--muted); line-height: 1.7; margin-top: 8px; text-align: center; }
+  .credits-list a { color: var(--muted); }
 
   /* ---------- Checklist ---------- */
   .checklist-card {
-    background: var(--white); border-radius: var(--radius); padding: 16px 18px;
-    box-shadow: 0 2px 12px rgba(15,23,42,0.06); margin-bottom: 14px;
+    background: var(--white); border-radius: var(--radius); padding: 18px 20px;
+    border: 1px solid var(--cream-dark); margin-bottom: 12px;
   }
-  .checklist-card h3 { margin: 0 0 10px; font-size: 0.92rem; color: var(--blue-dark); }
+  .checklist-card h3 { margin: 0 0 10px; font-family: var(--serif); font-weight: 400; font-size: 1rem; color: var(--navy); }
   .checklist-item {
-    display: flex; align-items: center; gap: 10px; padding: 7px 0;
-    font-size: 0.9rem; border-bottom: 1px solid #f1f5f9;
+    display: flex; align-items: center; gap: 10px; padding: 8px 0;
+    font-size: 0.9rem; border-top: 1px solid var(--cream-dark);
   }
-  .checklist-item:last-child { border-bottom: none; }
-  .checklist-item input { width: 20px; height: 20px; accent-color: var(--blue); flex-shrink: 0; }
+  .checklist-item:first-of-type { border-top: none; }
+  .checklist-item input { width: 18px; height: 18px; accent-color: var(--gold); flex-shrink: 0; }
   .checklist-item label.checked { text-decoration: line-through; color: var(--muted); }
-  .progress-wrap { background: #e2e8f0; border-radius: 20px; height: 8px; overflow: hidden; margin-bottom: 16px; }
-  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--blue), var(--blue-light)); width: 0%; transition: width 0.3s; }
-
-  .section-title {
-    font-size: 1rem; font-weight: 700; color: var(--blue-dark);
-    margin: 0 0 12px; display: flex; align-items: center; gap: 6px;
-  }
+  .progress-wrap { background: var(--cream-dark); border-radius: 20px; height: 6px; overflow: hidden; margin-bottom: 18px; }
+  .progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--terracotta)); width: 0%; transition: width 0.3s; }
 
   /* ---------- Bottom nav ---------- */
   #bottomNav {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
-    display: flex; background: rgba(255,253,247,0.94); backdrop-filter: blur(10px);
-    border-top: 1px solid #e5e7eb; padding: 8px 8px calc(8px + var(--safe-bottom));
+    display: flex; background: var(--navy);
+    padding: 10px 8px calc(10px + var(--safe-bottom));
   }
   #bottomNav button {
     flex: 1; background: none; border: none; display: flex; flex-direction: column;
-    align-items: center; gap: 2px; padding: 6px 0; color: var(--muted); font-size: 0.68rem;
-    font-weight: 600;
+    align-items: center; gap: 3px; padding: 5px 0; color: rgba(250,247,240,0.55);
+    font-size: 0.64rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
   }
-  #bottomNav button .nav-icon { font-size: 1.3rem; }
-  #bottomNav button.active { color: var(--blue); }
+  #bottomNav button .nav-icon { font-size: 1.2rem; filter: grayscale(0.4); }
+  #bottomNav button.active { color: var(--gold-light); }
+  #bottomNav button.active .nav-icon { filter: none; }
 
   /* ---------- Install banner ---------- */
   #installBanner {
-    display: none; margin: 0 0 16px; background: var(--white); border-radius: var(--radius);
-    padding: 14px 16px; box-shadow: 0 2px 12px rgba(15,23,42,0.08);
-    border: 1.5px solid var(--sand-dark);
+    display: none; margin: 0 0 18px; background: var(--white); border-radius: var(--radius);
+    padding: 16px 18px; border: 1px solid var(--gold-light);
   }
   #installBanner.show { display: flex; gap: 12px; align-items: flex-start; }
-  #installBanner .ib-icon { font-size: 1.5rem; }
-  #installBanner .ib-text { flex: 1; font-size: 0.84rem; line-height: 1.4; }
-  #installBanner .ib-text b { color: var(--blue-dark); }
-  #installBanner button.ib-close {
-    background: none; border: none; color: var(--muted); font-size: 1rem; padding: 0 2px;
-  }
+  #installBanner .ib-icon { font-size: 1.4rem; }
+  #installBanner .ib-text { flex: 1; font-size: 0.84rem; line-height: 1.5; color: var(--ink); }
+  #installBanner .ib-text b { color: var(--navy); }
+  #installBanner button.ib-close { background: none; border: none; color: var(--muted); font-size: 1rem; padding: 0 2px; }
   #installBtn {
-    margin-top: 8px; background: var(--blue); color: white; border: none;
-    padding: 7px 14px; border-radius: 10px; font-size: 0.8rem; font-weight: 700;
+    margin-top: 8px; background: var(--navy); color: var(--gold-light); border: none;
+    padding: 8px 16px; border-radius: 20px; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.03em;
   }
 
-  footer { text-align: center; font-size: 0.72rem; color: var(--muted); padding: 10px 16px 4px; }
+  footer { text-align: center; font-family: var(--serif); font-style: italic; font-size: 0.78rem; color: var(--muted); padding: 14px 16px 4px; }
 </style>
 </head>
 <body>
 
 <div id="app">
   <header>
+    <div class="eyebrow">Viaggio in Famiglia</div>
     <div class="header-top">
       <div>
-        <h1>🌊 Creta 2026</h1>
-        <div class="subtitle">Viaggio in famiglia · 25–30 Agosto</div>
+        <h1>Creta</h1>
+        <div class="tagline">Mare, storia e tavole cretesi tra Rethymno e Chania</div>
       </div>
       <div class="countdown" id="countdown">
         <div class="num">–</div>
         <div class="txt">giorni</div>
       </div>
     </div>
-    <div class="info-card">
-      <div class="info-row">🏨 May Beach Hotel — Missiria, Rethymno</div>
-      <div class="info-row">✈️ Aeroporto di Heraklion (HER)</div>
-      <div class="group-chips">
-        <span class="chip">👨‍👩‍👧‍👦 Famiglia 1 (2 bimbi 5-9)</span>
-        <span class="chip">👨‍👩‍👦 Famiglia 2 (1 teen)</span>
-        <span class="chip">👨‍👩‍👧‍👦 Famiglia 3 (2 bimbi 5-9)</span>
-        <span class="chip">👴👵 Nonni</span>
-      </div>
-    </div>
+    <hr class="rule">
+    <div class="info-row">25 – 30 Agosto 2026<span class="sep">·</span>May Beach Hotel, Rethymno<span class="sep">·</span>Aeroporto Heraklion (HER)</div>
+    <div class="group-line">3 famiglie · 4 bambini/adolescenti · 2 nonni</div>
   </header>
 
   <main>
@@ -268,6 +303,8 @@
 
     <!-- ITINERARIO -->
     <section class="view active" id="view-itinerary">
+      <div class="section-title">L'Itinerario</div>
+      <div class="section-sub">Sei giorni tra Rethymno, Chania e l'entroterra cretese</div>
       <div class="day-tabs" id="tabs">
         <button class="tab-btn active" data-day="all">Tutti</button>
         <button class="tab-btn" data-day="1">Mar 25</button>
@@ -282,22 +319,26 @@
 
     <!-- GUIDA -->
     <section class="view" id="view-guide">
-      <div class="section-title">📍 Guida ai Luoghi</div>
+      <div class="section-title">Guida ai Luoghi</div>
+      <div class="section-sub">Spiagge, cultura e tavole da non perdere</div>
       <div class="guide-filters" id="guideFilters">
         <button class="filter-btn active" data-cat="all">Tutti</button>
-        <button class="filter-btn" data-cat="beach">🏖️ Spiagge</button>
-        <button class="filter-btn" data-cat="culture">🏛️ Cultura</button>
-        <button class="filter-btn" data-cat="food">🍽️ Ristoranti</button>
+        <button class="filter-btn" data-cat="beach">Spiagge</button>
+        <button class="filter-btn" data-cat="culture">Cultura</button>
+        <button class="filter-btn" data-cat="food">Ristoranti</button>
       </div>
       <div id="places"></div>
-      <p style="font-size:0.75rem;color:var(--muted);text-align:center;margin-top:8px;">
-        Descrizioni indicative — verifica orari e disponibilità più vicino alla partenza.
-      </p>
+      <p class="place-note">Descrizioni indicative — verifica orari e disponibilità più vicino alla partenza.</p>
+      <details class="credits">
+        <summary>Crediti fotografici</summary>
+        <div class="credits-list" id="creditsList"></div>
+      </details>
     </section>
 
     <!-- CHECKLIST -->
     <section class="view" id="view-checklist">
-      <div class="section-title">🎒 Checklist da Portare</div>
+      <div class="section-title">Checklist</div>
+      <div class="section-sub">Cosa portare per tutta la famiglia</div>
       <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
       <div id="checklist"></div>
     </section>
@@ -316,7 +357,7 @@ const mapLink = (q) => `https://www.google.com/maps/search/?api=1&query=${encode
 /* ---------------- DATA: ITINERARY ---------------- */
 const days = [
   {
-    id: 1, date: "Martedì 25 Agosto", title: "Arrivo & Assestamento",
+    id: 1, num: "01", date: "Martedì 25 Agosto", title: "Arrivo & Assestamento", theme: "theme-1",
     segments: [
       { label: "Mattina / Primo Pomeriggio", text: "Arrivo all'Aeroporto di Heraklion (HER), ritiro delle auto a noleggio." },
       { label: "Pomeriggio", text: "Tragitto Heraklion → Rethymno (~1h). Check-in al May Beach Hotel, sistemazione e primo bagno in piscina." },
@@ -329,20 +370,20 @@ const days = [
     ]
   },
   {
-    id: 2, date: "Mercoledì 26 Agosto", title: "Mare Locale, Piscina e Rethymno Old Town",
+    id: 2, num: "02", date: "Mercoledì 26 Agosto", title: "Mare Locale, Piscina e Rethymno Old Town", theme: "theme-2", photo: "rethymno",
     segments: [
       { label: "Mattina", text: "Bagno a Platanes Beach, comoda e raggiungibile a piedi/auto dall'hotel." },
       { label: "Pomeriggio", text: "Relax e giochi in piscina al May Beach Hotel." },
       { label: "Sera", text: "Cena alle 19:00 seguita da passeggiata serale nei vicoli della città vecchia. L'orario è strategico per cenare senza calca con bimbi e nonni." }
     ],
-    badges: [{ type: "reserved", text: "Cena prenotata 19:00 · Taverna Knossos" }],
+    badges: [{ type: "reserved", text: "Prenotata 19:00 · Taverna Knossos" }],
     maps: [
       { name: "Platanes Beach", q: "Platanes Beach Rethymno" },
       { name: "Taverna Knossos", q: "Taverna Knossos Rethymno Old Town" }
     ]
   },
   {
-    id: 3, date: "Giovedì 27 Agosto", title: "Cnosso, Bali Beach & Cena dell'Agnello Tipico",
+    id: 3, num: "03", date: "Giovedì 27 Agosto", title: "Cnosso, Bali Beach & Cena dell'Agnello Tipico", theme: "theme-3", photo: "knossos",
     segments: [
       { label: "08:30 – 10:30", text: "Visita al Palazzo Minoico di Cnosso al mattino presto, per evitare caldo e code." },
       { label: "11:00 – 16:00", text: "Bali Beach: baie riparate dal vento, acque calme per i bambini, pranzo in taverna sul mare." },
@@ -351,7 +392,7 @@ const days = [
     ],
     badges: [
       { type: "recommended", text: "Taverna Goules (Goulediana)" },
-      { type: "special", text: "🔥 Antikristo · Anogeia / Axos" }
+      { type: "special", text: "Antikristo · Anogeia / Axos" }
     ],
     maps: [
       { name: "Palazzo di Cnosso", q: "Palace of Knossos" },
@@ -362,15 +403,15 @@ const days = [
     ]
   },
   {
-    id: 4, date: "Venerdì 28 Agosto", title: "Relax, Ceramiche & Serata Cretese",
+    id: 4, num: "04", date: "Venerdì 28 Agosto", title: "Relax, Ceramiche & Serata Cretese", theme: "theme-4", photo: "margarites",
     segments: [
       { label: "Mattina", text: "Bagno a Episkopi Beach (ampia e sabbiosa) oppure relax in piscina al May Beach Hotel." },
       { label: "Tardo Pomeriggio", text: "Visita al borgo di Margarites, famoso per le botteghe storiche di ceramica artigianale." },
       { label: "Sera", text: "Cena alle 20:00, con spettacolo Greek Night alle 20:30: musica dal vivo e danze tradizionali cretesi." }
     ],
     badges: [
-      { type: "reserved", text: "Cena prenotata 20:00 · Taverna Thalassi" },
-      { type: "special", text: "💃 Greek Night 20:30" }
+      { type: "reserved", text: "Prenotata 20:00 · Taverna Thalassi" },
+      { type: "special", text: "Greek Night 20:30" }
     ],
     maps: [
       { name: "Episkopi Beach", q: "Episkopi Beach Rethymno" },
@@ -379,7 +420,7 @@ const days = [
     ]
   },
   {
-    id: 5, date: "Sabato 29 Agosto", title: "Spiaggia Rosa di Elafonissi & Asikiko",
+    id: 5, num: "05", date: "Sabato 29 Agosto", title: "Spiaggia Rosa di Elafonissi & Asikiko", theme: "theme-5", photo: "elafonissi",
     segments: [
       { label: "07:30 Partenza Tassativa", text: "Partenza di prima mattina per Elafonissi (~2h di strada), per arrivare prima del grande flusso turistico." },
       { label: "Mattina / Pomeriggio", text: "Relax sulla spiaggia rosa e bagno nella laguna dalle acque basse e trasparenti." },
@@ -395,7 +436,7 @@ const days = [
     ]
   },
   {
-    id: 6, date: "Domenica 30 Agosto", title: "Mare Tranquillo & Serata a Chania",
+    id: 6, num: "06", date: "Domenica 30 Agosto", title: "Mare Tranquillo & Serata a Chania", theme: "theme-6", photo: "chania",
     segments: [
       { label: "Mattina", text: "Spiaggia di Marathi o Almyrida (zona Chania), acque bassissime e calme, ideali per famiglie." },
       { label: "Pomeriggio", text: "Rientro in hotel per ultimare le valigie e riposare." },
@@ -426,7 +467,7 @@ const places = [
   },
   {
     cat: "beach", icon: "🏖️", name: "Elafonissi Beach", tagline: "La spiaggia rosa, gioiello di Creta", days: "Giorno 5",
-    q: "Elafonissi Beach Crete",
+    q: "Elafonissi Beach Crete", img: "elafonissi",
     desc: "Riserva naturale nella punta sud-occidentale dell'isola, famosa per la sabbia rosata e la laguna bassa e trasparente che la separa da un isolotto. Tra le spiagge più fotografate della Grecia: diventa molto affollata dalla tarda mattinata, motivo della partenza anticipata delle 7:30.",
     tips: ["Portare ombrellone: pochissima ombra naturale", "Acqua bassissima nella laguna, sicura per i bimbi", "~2 ore di auto da Rethymno"]
   },
@@ -438,43 +479,43 @@ const places = [
   },
   {
     cat: "beach", icon: "🏖️", name: "Marathi Beach", tagline: "Baia a ferro di cavallo, acqua bassissima", days: "Giorno 6",
-    q: "Marathi Beach Chania",
+    q: "Marathi Beach Chania", img: "marathi",
     desc: "Piccola baia riparata vicino a Chania, con acqua calma e poco profonda quasi ovunque: una delle spiagge più sicure di Creta per i bambini piccoli. Sabbia fine e diverse taverne sul lungomare.",
     tips: ["Ideale per chi ha bimbi molto piccoli"]
   },
   {
     cat: "beach", icon: "🏖️", name: "Almyrida", tagline: "Villaggio costiero rilassato", days: "Giorno 6",
-    q: "Almyrida Crete",
+    q: "Almyrida Crete", img: "almyrida",
     desc: "Piccolo villaggio turistico vicino a Chania con spiaggia sabbiosa e acque calme, circondato da taverne e caffè sul mare. Atmosfera vivace, comoda per un ultimo bagno prima di dirigersi a Chania.",
     tips: []
   },
   {
     cat: "culture", icon: "🏛️", name: "Palazzo di Cnosso", tagline: "Il cuore della civiltà minoica", days: "Giorno 3",
-    q: "Palace of Knossos",
+    q: "Palace of Knossos", img: "knossos",
     desc: "Il più importante sito archeologico minoico di Creta, risalente a oltre 3500 anni fa. Ambientazione del mito del Labirinto e del Minotauro, con affreschi ricostruiti e ampi cortili. Pochissima ombra: la visita mattutina evita il caldo peggiore e le code.",
     tips: ["Raccontare il mito del Minotauro rende la visita più coinvolgente per i bimbi", "Acqua e cappellino obbligatori", "Prevedere 1-1h30 di visita con bambini"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Margarites", tagline: "Il borgo della ceramica", days: "Giorno 4",
-    q: "Margarites Crete ceramics village",
+    q: "Margarites Crete ceramics village", img: "margarites",
     desc: "Villaggio collinare vicino a Rethymno con una tradizione ceramista secolare. Le stradine sono piene di botteghe artigiane dove si può vedere il tornio in azione e acquistare pezzi unici.",
     tips: ["Ottimo per una passeggiata tranquilla nel tardo pomeriggio", "Le botteghe sono interessanti anche per i bambini"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Anogeia", tagline: "Musica e tradizione sul Monte Psiloritis", days: "Giorno 3",
-    q: "Anogeia Crete",
+    q: "Anogeia Crete", img: "anogeia",
     desc: "Villaggio di montagna sulle pendici dello Psiloritis, noto per la musica tradizionale (lyra cretese), la tessitura e per il ruolo di simbolo della resistenza cretese durante la Seconda Guerra Mondiale. Qui, o nella vicina Axos, si trovano le migliori taverne per l'Antikristo.",
     tips: ["Clima più fresco rispetto alla costa", "Strada di montagna: guida più impegnativa ma paesaggi splendidi"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Rethymno Old Town", tagline: "Vicoli veneziani e la Fortezza", days: "Giorni 2, 5",
-    q: "Rethymno Old Town",
+    q: "Rethymno Old Town", img: "rethymno",
     desc: "Il centro storico di Rethymno mescola architettura veneziana e ottomana: vicoli stretti, balconi in legno, la Fortezza che domina il porto e un porto veneziano pittoresco pieno di taverne.",
     tips: ["Perfetto per una passeggiata serale dopo cena", "Il porto si anima particolarmente al tramonto"]
   },
   {
     cat: "culture", icon: "🏛️", name: "Chania Old Town", tagline: "Il porto veneziano più bello di Creta", days: "Giorno 6",
-    q: "Venetian Harbour Chania",
+    q: "Venetian Harbour Chania", img: "chania",
     desc: "Una delle città vecchie più suggestive della Grecia, con il celebre Porto Veneziano, il faro egiziano e stradine piene di botteghe, gallerie e taverne. Ottima per lo shopping serale e una cena finale scenografica.",
     tips: ["Il faro e il porto sono più suggestivi al tramonto", "Molte opzioni shopping, buone anche per un adolescente"]
   },
@@ -491,13 +532,13 @@ const places = [
     tips: []
   },
   {
-    cat: "food", icon: "🍽️", name: "Antikristo · Anogeia/Axos", tagline: "Agnello cotto al fuoco aperto", days: "Giorno 3 · Opzione speciale",
+    cat: "food", icon: "🔥", name: "Antikristo · Anogeia/Axos", tagline: "Agnello cotto al fuoco aperto", days: "Giorno 3 · Opzione speciale",
     q: "Anogeia Crete taverna",
     desc: "Nei villaggi di montagna di Anogeia o Axos si trovano le taverne che preparano l'Antikristo: agnello intero disposto in cerchio attorno a un fuoco aperto e cotto lentamente per ore. Esperienza gastronomica autentica e scenografica, apprezzata anche dai bambini.",
     tips: []
   },
   {
-    cat: "food", icon: "🍽️", name: "Taverna Thalassi", tagline: "Greek Night con musica e danze", days: "Giorno 4 · Prenotata 20:00",
+    cat: "food", icon: "💃", name: "Taverna Thalassi", tagline: "Greek Night con musica e danze", days: "Giorno 4 · Prenotata 20:00",
     q: "Taverna Thalassi Rethymno",
     desc: "Cena delle 20:00 seguita, alle 20:30, da una serata a tema con musica dal vivo e danze tradizionali cretesi: un'esperienza coinvolgente per bambini, adolescenti e nonni insieme.",
     tips: []
@@ -512,12 +553,27 @@ const places = [
 
 /* ---------------- DATA: CHECKLIST ---------------- */
 const checklistData = {
-  "📄 Documenti": ["Carte d'identità / Passaporti", "Tessere sanitarie (EHIC)", "Patenti (per noleggio auto)", "Conferme voli e hotel", "Assicurazione di viaggio"],
-  "☀️ Mare & Sole": ["Costumi da bagno (di scorta)", "Creme solari alta protezione (bimbi)", "Cappellini / Occhiali da sole", "Teli mare", "Braccioli / salvagente bimbi", "Scarpette da scoglio"],
-  "👕 Vestiti": ["Abbigliamento leggero", "Un cambio elegante per le cene", "Costumi extra", "Felpa leggera per le sere"],
-  "👶 Bambini & Nonni": ["Giochi da spiaggia", "Snack per il viaggio", "Farmaci abituali / kit primo soccorso", "Ombrellone / tenda parasole", "Cuscino da viaggio per i nonni"],
-  "🎒 Altro": ["Powerbank e cavi di ricarica", "Adattatori di corrente (se necessario)", "Contanti in euro", "Zaino da spiaggia", "Repellente per insetti"]
+  "Documenti": ["Carte d'identità / Passaporti", "Tessere sanitarie (EHIC)", "Patenti (per noleggio auto)", "Conferme voli e hotel", "Assicurazione di viaggio"],
+  "Mare & Sole": ["Costumi da bagno (di scorta)", "Creme solari alta protezione (bimbi)", "Cappellini / Occhiali da sole", "Teli mare", "Braccioli / salvagente bimbi", "Scarpette da scoglio"],
+  "Vestiti": ["Abbigliamento leggero", "Un cambio elegante per le cene", "Costumi extra", "Felpa leggera per le sere"],
+  "Bambini & Nonni": ["Giochi da spiaggia", "Snack per il viaggio", "Farmaci abituali / kit primo soccorso", "Ombrellone / tenda parasole", "Cuscino da viaggio per i nonni"],
+  "Altro": ["Powerbank e cavi di ricarica", "Adattatori di corrente (se necessario)", "Contanti in euro", "Zaino da spiaggia", "Repellente per insetti"]
 };
+
+/* ---------------- DATA: PHOTO CREDITS ---------------- */
+const photoCredits = [
+  { name: "Knossos", artist: "CMOSPOWER", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Knossos_-_Palace_of_the_Minoans.jpg" },
+  { name: "Rethymno", artist: "Dietmar Rabich", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:Kreta_(GR),_Rethymno,_Alter_Hafen,_Leuchtturm_--_2023_--_8351.jpg" },
+  { name: "Chania", artist: "Ввласенко", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Harbor,_Venetian_shipyards_and_Lighthouse_in_Chania._Crete,_Greece.jpg" },
+  { name: "Elafonissi", artist: "G Da", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Elafonissi_in_Crete,_Greece_-_panoramio.jpg" },
+  { name: "Margarites", artist: "C messier", license: "CC BY-SA 4.0", url: "https://commons.wikimedia.org/wiki/File:%CE%9C%CE%B1%CF%81%CE%B3%CE%B1%CF%81%CE%AF%CF%84%CE%B5%CF%82_%CE%A1%CE%B5%CE%B8%CF%8D%CE%BC%CE%BD%CE%BF%CF%85_5570.jpg" },
+  { name: "Anogeia", artist: "Unukorno", license: "CC BY 4.0", url: "https://commons.wikimedia.org/wiki/File:Street_in_Anogeia_(Crete).jpg" },
+  { name: "Marathi", artist: "Tanya Dedyukhina", license: "CC BY 3.0", url: "https://commons.wikimedia.org/wiki/File:Kato_Marathi_-_panoramio_(9).jpg" },
+  { name: "Almyrida", artist: "Jlundqvi", license: "CC BY-SA 3.0", url: "https://commons.wikimedia.org/wiki/File:Waterfront_of_Almyrida_on_the_Island_of_Crete,_Greece_2009-04-12.jpg" }
+];
+document.getElementById('creditsList').innerHTML = photoCredits
+  .map(c => `${c.name}: © <a href="${c.url}" target="_blank" rel="noopener">${c.artist}</a>, ${c.license}`)
+  .join('<br>') + '<br>Foto da Wikimedia Commons.';
 
 /* ---------------- RENDER: ITINERARY ---------------- */
 const daysContainer = document.getElementById('days');
@@ -527,17 +583,24 @@ days.forEach(day => {
   const card = document.createElement('div');
   card.className = 'day-card';
   card.dataset.day = day.id;
+  const heroStyle = day.photo
+    ? ` style="background-image:linear-gradient(180deg, rgba(11,37,69,.25), rgba(11,37,69,.85)), url('images/${day.photo}.jpg')"`
+    : '';
   card.innerHTML = `
-    <p class="day-title">${day.date}</p>
-    <h2>${day.title}</h2>
-    ${day.badges.length ? `<div class="badges">${day.badges.map(badgeHtml).join('')}</div>` : ''}
-    ${day.segments.map(s => `
-      <div class="segment">
-        <div class="label">${s.label}</div>
-        <div class="text">${s.text}</div>
-      </div>
-    `).join('')}
-    <div class="maps">${day.maps.map(m => `<a href="${mapLink(m.q)}" target="_blank" rel="noopener">📍 ${m.name}</a>`).join('')}</div>
+    <div class="day-hero ${day.theme}${day.photo ? ' has-photo' : ''}"${heroStyle}>
+      <div class="day-num">Giorno ${day.num} · ${day.date}</div>
+      <h2>${day.title}</h2>
+    </div>
+    <div class="day-body">
+      ${day.badges.length ? `<div class="badges">${day.badges.map(badgeHtml).join('')}</div>` : ''}
+      ${day.segments.map(s => `
+        <div class="segment">
+          <div class="label">${s.label}</div>
+          <div class="text">${s.text}</div>
+        </div>
+      `).join('')}
+      <div class="maps">${day.maps.map(m => `<a href="${mapLink(m.q)}" target="_blank" rel="noopener">${m.name}</a>`).join('')}</div>
+    </div>
   `;
   daysContainer.appendChild(card);
 });
@@ -555,16 +618,17 @@ document.getElementById('tabs').addEventListener('click', (e) => {
 
 /* ---------------- RENDER: GUIDE ---------------- */
 const placesContainer = document.getElementById('places');
-const iconClass = { beach: 'beach', culture: 'culture', food: 'food' };
 
 function renderPlaces(filter) {
   placesContainer.innerHTML = '';
-  places.filter(p => filter === 'all' || p.cat === filter).forEach((p, idx) => {
+  places.filter(p => filter === 'all' || p.cat === filter).forEach((p) => {
     const card = document.createElement('div');
     card.className = 'place-card';
+    const photoHtml = p.img ? `<div class="place-photo" style="background-image:url('images/${p.img}-thumb.jpg')"></div>` : '';
     card.innerHTML = `
+      ${photoHtml}
       <div class="place-header">
-        <div class="place-icon ${iconClass[p.cat]}">${p.icon}</div>
+        <div class="place-icon">${p.icon}</div>
         <div class="place-meta">
           <div class="place-name">${p.name}</div>
           <div class="place-tagline">${p.tagline}</div>
@@ -572,10 +636,10 @@ function renderPlaces(filter) {
         <div class="place-chevron">▾</div>
       </div>
       <div class="place-body">
-        <div class="place-days">🗓️ ${p.days}</div>
+        <div class="place-days">${p.days}</div>
         <div class="place-desc">${p.desc}</div>
-        ${p.tips.length ? `<ul class="place-tips">${p.tips.map(t => `<li>💡 ${t}</li>`).join('')}</ul>` : ''}
-        <div class="maps"><a href="${mapLink(p.q)}" target="_blank" rel="noopener">📍 Apri in Google Maps</a></div>
+        ${p.tips.length ? `<ul class="place-tips">${p.tips.map(t => `<li>${t}</li>`).join('')}</ul>` : ''}
+        <div class="maps"><a href="${mapLink(p.q)}" target="_blank" rel="noopener">Apri in Google Maps</a></div>
       </div>
     `;
     card.querySelector('.place-header').addEventListener('click', () => {
@@ -653,9 +717,9 @@ document.getElementById('bottomNav').addEventListener('click', (e) => {
   const txt = document.querySelector('#countdown .txt');
   if (diffDays > 1) { el.textContent = diffDays; txt.textContent = 'giorni'; }
   else if (diffDays === 1) { el.textContent = '1'; txt.textContent = 'giorno'; }
-  else if (diffDays === 0) { el.textContent = '🎉'; txt.textContent = 'si parte!'; }
-  else if (now < new Date('2026-08-31T00:00:00')) { el.textContent = '🌊'; txt.textContent = 'in corso'; }
-  else { el.textContent = '✅'; txt.textContent = 'concluso'; }
+  else if (diffDays === 0) { el.textContent = '✦'; txt.textContent = 'si parte'; }
+  else if (now < new Date('2026-08-31T00:00:00')) { el.textContent = '✦'; txt.textContent = 'in corso'; }
+  else { el.textContent = '✦'; txt.textContent = 'concluso'; }
 })();
 
 /* ---------------- INSTALL BANNER ---------------- */

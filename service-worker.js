@@ -1,4 +1,5 @@
-const CACHE_NAME = "creta2026-v1";
+const CACHE_NAME = "creta2026-v2";
+const IMAGE_SLUGS = ["knossos", "rethymno", "chania", "elafonissi", "margarites", "anogeia", "marathi", "almyrida"];
 const ASSETS = [
   "./",
   "./index.html",
@@ -7,7 +8,9 @@ const ASSETS = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/apple-touch-icon.png",
-  "./icons/favicon-32.png"
+  "./icons/favicon-32.png",
+  ...IMAGE_SLUGS.map((s) => `./images/${s}.jpg`),
+  ...IMAGE_SLUGS.map((s) => `./images/${s}-thumb.jpg`)
 ];
 
 self.addEventListener("install", (event) => {
