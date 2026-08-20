@@ -57,14 +57,23 @@
   }
   .view-toggle button {
     flex: 1; height: var(--toggle-height); background: none; border: none;
-    color: rgba(255,255,255,0.85); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.02em;
-    display: flex; align-items: center; justify-content: center; gap: 6px;
-    border-bottom: 2px solid transparent; font-family: inherit;
-    text-shadow: 0 1px 5px rgba(11,37,69,0.55);
-    transition: color 0.35s ease, text-shadow 0.35s ease;
+    display: flex; align-items: center; justify-content: center;
+    font-family: inherit; cursor: pointer; padding: 0 4px;
   }
-  .view-toggle.solid button { color: rgba(250,247,240,0.6); text-shadow: none; }
-  .view-toggle button.active { color: var(--gold-light); border-bottom-color: var(--gold-light); text-shadow: none; }
+  .view-toggle .nav-pill {
+    display: flex; align-items: center; justify-content: center; gap: 7px;
+    padding: 8px 12px; border-radius: 999px;
+    color: rgba(255,255,255,0.75); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.02em;
+    text-shadow: 0 1px 5px rgba(11,37,69,0.55);
+    transition: color 0.25s ease, background 0.25s ease, text-shadow 0.25s ease;
+  }
+  .view-toggle .nav-pill svg { width: 19px; height: 19px; flex-shrink: 0; }
+  .view-toggle.solid .nav-pill { color: rgba(250,247,240,0.55); text-shadow: none; }
+  .view-toggle button.active .nav-pill { color: var(--navy); background: var(--cream); text-shadow: none; }
+  .nav-label { display: none; }
+  @media (min-width: 640px) {
+    .nav-label { display: inline; }
+  }
 
   /* ---------- Hero header ---------- */
   header.hero {
@@ -87,7 +96,7 @@
     pointer-events: none;
   }
   header.hero.view-hidden { display: none; }
-  .hero-inner { position: relative; z-index: 1; padding-top: calc(var(--toggle-height) + env(safe-area-inset-top, 0px) + 20px); }
+  .hero-inner { position: relative; z-index: 1; }
   .eyebrow {
     font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.22em;
     color: var(--gold-light); font-weight: 600; margin-bottom: 10px;
@@ -247,12 +256,7 @@
     display: flex; align-items: center; gap: 8px; flex-shrink: 0;
     padding: 10px 12px; background: var(--white); border-bottom: 1px solid var(--cream-dark);
   }
-  .map-topbar .day-tabs, .map-topbar .guide-filters { flex: 1; margin: 0; padding: 0; }
-  .list-toggle-btn {
-    flex-shrink: 0; background: var(--navy); color: var(--gold-light); border: none;
-    border-radius: 20px; padding: 8px 13px; font-size: 0.78rem; font-weight: 700;
-    white-space: nowrap; font-family: inherit;
-  }
+  .map-topbar .day-tabs { flex: 1; margin: 0; padding: 0; }
   .leaflet-map { flex: 1; isolation: isolate; }
   .leaflet-map .leaflet-popup-content-wrapper,
   .leaflet-map .leaflet-popup-tip { background: var(--white); color: var(--ink); }
@@ -270,14 +274,8 @@
   .map-pin.cat-hotel { background: var(--navy); }
   .map-pin.cat-transit { background: var(--ink); }
   .map-route { stroke-dasharray: 2, 9; }
-  .map-list-panel {
-    display: none; flex: 1; overflow-y: auto; overscroll-behavior: contain;
-    padding: 14px 16px calc(20px + var(--safe-bottom));
-  }
-  .map-list-panel.active { display: block; }
 
-  .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; }
-  #guideFilters { display: none; }
+  .guide-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: none; margin: -2px -2px 0; }
   .guide-filters::-webkit-scrollbar { display: none; }
   .filter-btn {
     flex: 0 0 auto; background: transparent; color: var(--navy);
@@ -382,8 +380,24 @@
 
 <div id="app">
   <nav class="view-toggle" id="viewToggle">
-    <button class="active" data-view="itinerary">🗓️ Itinerario</button>
-    <button data-view="map">🗺️ Mappa</button>
+    <button class="active" data-view="itinerary">
+      <span class="nav-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+        <span class="nav-label">Itinerario</span>
+      </span>
+    </button>
+    <button data-view="list">
+      <span class="nav-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+        <span class="nav-label">Elenco</span>
+      </span>
+    </button>
+    <button data-view="map">
+      <span class="nav-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon><line x1="8" y1="2" x2="8" y2="18"></line><line x1="16" y1="6" x2="16" y2="22"></line></svg>
+        <span class="nav-label">Mappa</span>
+      </span>
+    </button>
   </nav>
 
   <header class="hero" id="hero" style="background-image:url('images/elafonissi.jpg')">
@@ -426,30 +440,17 @@
       </div>
       <div id="days"></div>
     </section>
-  </main>
 
-  <!-- MAPPA (full-screen overlay, outside the padded/scrolling main) -->
-  <div id="view-map">
-    <div class="map-topbar">
-      <div class="day-tabs" id="mapTabs">
-        <button class="tab-btn active" data-day="all">Tutti</button>
-        <button class="tab-btn" data-day="1">Mar 25</button>
-        <button class="tab-btn" data-day="2">Mer 26</button>
-        <button class="tab-btn" data-day="3">Gio 27</button>
-        <button class="tab-btn" data-day="4">Ven 28</button>
-        <button class="tab-btn" data-day="5">Sab 29</button>
-        <button class="tab-btn" data-day="6">Dom 30</button>
-      </div>
+    <!-- ELENCO -->
+    <section class="view" id="view-list">
+      <div class="section-title">Elenco dei Luoghi</div>
+      <div class="section-sub">Spiagge, cultura e ristoranti selezionati per il viaggio</div>
       <div class="guide-filters" id="guideFilters">
         <button class="filter-btn active" data-cat="all">Tutti</button>
         <button class="filter-btn" data-cat="beach">Spiagge</button>
         <button class="filter-btn" data-cat="culture">Cultura</button>
         <button class="filter-btn" data-cat="food">Ristoranti</button>
       </div>
-      <button class="list-toggle-btn" id="mapListToggle">☰ Elenco</button>
-    </div>
-    <div id="leafletMap" class="leaflet-map"></div>
-    <div class="map-list-panel" id="mapListPanel">
       <a class="gmaps-list-link" href="https://maps.app.goo.gl/Birqs6gT6SYGb7aC9" target="_blank" rel="noopener">
         <span class="gmaps-list-icon">🗺️</span>
         <span class="gmaps-list-text">
@@ -464,7 +465,23 @@
         <summary>Crediti fotografici e mappe</summary>
         <div class="credits-list" id="creditsList"></div>
       </details>
+    </section>
+  </main>
+
+  <!-- MAPPA (full-screen overlay, outside the padded/scrolling main) -->
+  <div id="view-map">
+    <div class="map-topbar">
+      <div class="day-tabs" id="mapTabs">
+        <button class="tab-btn active" data-day="all">Tutti</button>
+        <button class="tab-btn" data-day="1">Mar 25</button>
+        <button class="tab-btn" data-day="2">Mer 26</button>
+        <button class="tab-btn" data-day="3">Gio 27</button>
+        <button class="tab-btn" data-day="4">Ven 28</button>
+        <button class="tab-btn" data-day="5">Sab 29</button>
+        <button class="tab-btn" data-day="6">Dom 30</button>
+      </div>
     </div>
+    <div id="leafletMap" class="leaflet-map"></div>
   </div>
 
   <div class="modal-overlay" id="placeModal">
@@ -923,20 +940,6 @@ document.getElementById('mapTabs').addEventListener('click', (e) => {
   renderMapMarkers();
 });
 
-/* ---------------- MAP LIST TOGGLE (replaces the old Guida tab) ---------------- */
-let mapListMode = false;
-document.getElementById('mapListToggle').addEventListener('click', () => {
-  mapListMode = !mapListMode;
-  document.getElementById('leafletMap').style.display = mapListMode ? 'none' : '';
-  document.getElementById('mapListPanel').classList.toggle('active', mapListMode);
-  document.getElementById('mapTabs').style.display = mapListMode ? 'none' : '';
-  document.getElementById('guideFilters').style.display = mapListMode ? '' : 'none';
-  document.getElementById('mapListToggle').textContent = mapListMode ? '🗺️ Mappa' : '☰ Elenco';
-  if (!mapListMode && leafletMap) {
-    setTimeout(() => leafletMap.invalidateSize(), 60);
-  }
-});
-
 /* ---------------- HERO / STICKY NAV COLLAPSE ---------------- */
 const heroEl = document.getElementById('hero');
 const navEl = document.getElementById('viewToggle');
@@ -959,6 +962,7 @@ document.getElementById('viewToggle').addEventListener('click', (e) => {
   document.querySelectorAll('#viewToggle button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('view-itinerary').classList.toggle('active', view === 'itinerary');
+  document.getElementById('view-list').classList.toggle('active', view === 'list');
   document.getElementById('view-map').classList.toggle('active', view === 'map');
   heroEl.classList.toggle('view-hidden', view !== 'itinerary');
   window.scrollTo({ top: 0, behavior: 'instant' });
@@ -966,6 +970,8 @@ document.getElementById('viewToggle').addEventListener('click', (e) => {
     navEl.classList.add('solid');
     initMap();
     setTimeout(() => { leafletMap.invalidateSize(); renderMapMarkers(); }, 80);
+  } else if (view === 'list') {
+    navEl.classList.add('solid');
   } else {
     updateNavSolidness();
   }
