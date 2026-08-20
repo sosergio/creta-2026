@@ -684,7 +684,7 @@ const photoCredits = [
 ];
 document.getElementById('creditsList').innerHTML = photoCredits
   .map(c => `${c.name}: © <a href="${c.url}" target="_blank" rel="noopener">${c.artist}</a>, ${c.license}`)
-  .join('<br>') + '<br>Foto da Wikimedia Commons.<br>Mappe: © contributori OpenStreetMap.';
+  .join('<br>') + '<br>Foto da Wikimedia Commons.<br>Mappe: Esri, HERE, Garmin, © contributori OpenStreetMap.';
 
 /* ---------------- RENDER: ITINERARY ---------------- */
 const daysContainer = document.getElementById('days');
@@ -821,9 +821,9 @@ function dayPlaceSlugs(day) {
 function initMap() {
   if (leafletMap) return;
   leafletMap = L.map('leafletMap', { scrollWheelZoom: false }).setView(CRETE_CENTER, 10);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 18,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
+    attribution: 'Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
   }).addTo(leafletMap);
   markersLayer = L.layerGroup().addTo(leafletMap);
 }
