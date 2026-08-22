@@ -231,6 +231,7 @@
   .badge.reserved { color: #1a7a4a; border-color: #b8e0c8; background: #f2faf5; }
   .badge.recommended { color: var(--gold); border-color: var(--gold-light); background: #fdf8ec; }
   .badge.special { color: var(--terracotta); border-color: #ecc3b6; background: #fdf3f0; }
+  .badge.note { color: var(--sea); border-color: #b9dde3; background: #f0f8fa; }
 
   .maps { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
   .maps a, .maps button.map-chip {
@@ -940,7 +941,8 @@ const days = [
     ],
     badges: [
       { type: "reserved", text: "Ingresso prenotato 17:00 · Cnosso", text_en: "Entry booked 17:00 · Knossos", place: "knossos" },
-      { type: "reserved", text: "Prenotata 20:30 · Kafeneio O Tempelis · Heraklion", text_en: "Booked 20:30 · Kafeneio O Tempelis · Heraklion", place: "o-tempelis" }
+      { type: "reserved", text: "Prenotata 20:30 · Kafeneio O Tempelis · Heraklion", text_en: "Booked 20:30 · Kafeneio O Tempelis · Heraklion", place: "o-tempelis" },
+      { type: "note", text: "Non si rientra in hotel prima di cena: portare il cambio", text_en: "No stop at the hotel before dinner: bring a change of clothes" }
     ],
     maps: [
       { name: "Bali · Livadi Beach", q: "Bali Beach Crete", place: "bali" },
@@ -985,7 +987,8 @@ const days = [
       { label: "Rientro", label_en: "Way back", text: "Dagli Arsenali Veneziani (Neoria), passeggiata sul bagnasciuga di Akti Enoseos fino a rientrare al parcheggio di Via Defkalionos. Infine rientro in hotel (~1h15).", text_en: "From the Venetian Arsenals (Neoria), a walk along the Akti Enoseos shoreline back to the parking on Defkalionos Street. Finally back to the hotel (~1h15)." }
     ],
     badges: [
-      { type: "recommended", text: "Richiesta inviata, in attesa di conferma · Ristorante Oinopoieio · Chania", text_en: "Request sent, awaiting confirmation · Ristorante Oinopoieio · Chania", place: "oinopoieio" }
+      { type: "recommended", text: "Richiesta inviata, in attesa di conferma · Ristorante Oinopoieio · Chania", text_en: "Request sent, awaiting confirmation · Ristorante Oinopoieio · Chania", place: "oinopoieio" },
+      { type: "note", text: "Non si rientra in hotel prima di cena: portare il cambio", text_en: "No stop at the hotel before dinner: bring a change of clothes" }
     ],
     maps: [
       { name: "Elafonissi Beach", q: "Elafonissi Beach Crete", place: "elafonissi" },
