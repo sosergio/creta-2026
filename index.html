@@ -562,7 +562,7 @@
           <figcaption>Le stradine di Margarites, tappa pomeridiana opzionale nell'entroterra di Rethymno. — Foto: C messier, CC BY-SA 4.0, via Wikimedia Commons</figcaption>
         </figure>
         <p>Per chi vuole allungare il pomeriggio, l'entroterra offre un piccolo circuito facile da aggiungere, circa 35 minuti di guida in tutto: Margarites, il borgo collinare con una tradizione ceramista secolare, dove le stradine sono piene di botteghe artigiane e si può ancora vedere il tornio in azione; e, a una ventina di minuti da lì, il Monastero di Arkadi. Con la sua facciata veneziana barocca, il monastero è uno dei luoghi simbolo della storia cretese: nel 1866, durante l'assedio ottomano, gli assediati si fecero esplodere insieme agli assalitori piuttosto che arrendersi — un episodio che ancora oggi definisce l'identità dell'isola.</p>
-        <p>La sera si rientra a Rethymno per cena. La prenotazione attuale è alla Taverna Knossos (un nome che, nonostante l'omonimia, non ha nulla a che vedere con il sito archeologico) per le 19:00 — un orario ritenuto troppo presto per una cena vera e propria, da spostare più avanti in serata o da sostituire con un'altra taverna del centro storico.</p>
+        <p>La sera si rientra a Rethymno per cena da Taverna Knossos (un nome che, nonostante l'omonimia, non ha nulla a che vedere con il sito archeologico), prenotata per le 19:00.</p>
 
         <h3 class="blog-day-title"><span class="blog-day-kicker">Giorno 3</span>Bali (Livadi Beach), Cnosso e Serata a Heraklion</h3>
         <p>Bali è un piccolo villaggio sulla costa nord, costruito attorno a una serie di calette strette e riparate — Livadi, Karavostasi, Evita — separate tra loro da promontori rocciosi ma tutte a pochi passi l'una dall'altra. La tappa di oggi è Livadi, la caletta più centrale e attrezzata del gruppo. L'acqua è calma quasi come quella di un lago, protetta dal vento e dalle onde del mare aperto, il che la rende una delle mete più amate dalle famiglie con bambini piccoli. È anche piccola: conviene arrivare in mattinata, verso le 9:00, per trovare posto senza dover girare a lungo tra le calette. Il pranzo si fa direttamente in una delle taverne sul mare, spesso costruite proprio sugli scogli.</p>
@@ -704,7 +704,7 @@
           <figcaption>The lanes of Margarites, an optional afternoon stop in Rethymno's interior. — Photo: C messier, CC BY-SA 4.0, via Wikimedia Commons</figcaption>
         </figure>
         <p>For anyone wanting to stretch the afternoon, the interior offers an easy loop to add on, about 35 minutes of driving in total: Margarites, the hillside village with a centuries-old pottery tradition, where the lanes are lined with artisan workshops and you can still watch the wheel in action; and, about twenty minutes further on, Arkadi Monastery. With its Venetian baroque façade, the monastery is one of the symbolic places in Cretan history: in 1866, during the Ottoman siege, those trapped inside blew themselves up along with the attackers rather than surrender — an episode that still shapes the island's identity today.</p>
-        <p>The evening brings a return to Rethymno for dinner. The current booking is at Taverna Knossos (a name that, despite the coincidence, has nothing to do with the archaeological site) for 19:00 — an hour felt to be too early for a proper dinner, worth pushing later in the evening or swapping for another taverna in the old town.</p>
+        <p>The evening brings a return to Rethymno for dinner at Taverna Knossos (a name that, despite the coincidence, has nothing to do with the archaeological site), booked for 19:00.</p>
 
         <h3 class="blog-day-title"><span class="blog-day-kicker">Day 3</span>Bali (Livadi Beach), Knossos, and an Evening in Heraklion</h3>
         <p>Bali is a small village on the north coast, built around a string of narrow, sheltered coves — Livadi, Karavostasi, Evita — separated by rocky headlands but only steps apart from one another. Today's stop is Livadi, the most central and well-equipped of the coves. The water is nearly lake-calm, protected from wind and open-sea swell, which makes it one of the beaches families with young children love most. It's also small, so it's worth arriving in the morning, around 9am, to find a spot without spending too long moving between coves. Lunch happens right there, at one of the seaside tavernas, often built directly over the rocks.</p>
@@ -885,10 +885,10 @@ const days = [
       { label: "Mattina", text: "Partenza verso Panormos (~20 min), piccolo villaggio costiero tra Rethymno e Bali con una bella spiaggia sabbiosa e diverse taverne sul mare." },
       { label: "Pranzo e Spiaggia", text: "Pranzo in taverna sul mare a Panormos, poi bagno in spiaggia con calma, senza il traffico dei giorni di Elafonissi o Bali." },
       { label: "Pomeriggio (opzionale)", text: "Per chi vuole allungare la giornata: proseguimento nell'entroterra verso Margarites, il borgo della ceramica, e il vicino Monastero di Arkadi, simbolo della resistenza cretese del 1866. Circuito breve, circa 35 min di guida in tutto tra le due tappe." },
-      { label: "Sera", text: "Rientro a Rethymno per cena. Prenotazione attuale: Taverna Knossos ore 19:00 — orario ritenuto troppo presto, da rivedere con un orario più tardo o un'alternativa in centro storico." }
+      { label: "Sera", text: "Rientro a Rethymno per cena da Taverna Knossos, prenotata per le 19:00." }
     ],
     badges: [
-      { type: "recommended", text: "Da rivedere · Taverna Knossos ore 19:00 (troppo presto)", place: "taverna-knossos" }
+      { type: "reserved", text: "Prenotata 19:00 · Taverna Knossos", place: "taverna-knossos" }
     ],
     maps: [
       { name: "Panormos", q: "Panormos Rethymno Crete", place: "panormos" },
@@ -1105,9 +1105,9 @@ const places = [
     tips: []
   },
   {
-    cat: "food", icon: "🍽️", name: "Taverna Knossos", tagline: "Cena in centro storico · Rethymno", days: "Giorno 2 · Prenotata 19:00 (da rivedere)", booked: true,
+    cat: "food", icon: "🍽️", name: "Taverna Knossos", tagline: "Cena in centro storico · Rethymno", days: "Giorno 2 · Prenotata 19:00", booked: true,
     q: "Taverna Knossos Rethymno Old Town", slug: "taverna-knossos", lat: 35.3661032, lon: 24.4777803, distanceKm: 3.9, durationMin: 6,
-    desc: "Taverna tradizionale nel cuore della città vecchia di Rethymno, adatta a gruppi numerosi e famiglie. Prenotazione reale per le 19:00 del 26 Agosto, ma l'orario è ritenuto troppo presto: da spostare più tardi in serata, o da sostituire con un'altra taverna in centro.",
+    desc: "Taverna tradizionale nel cuore della città vecchia di Rethymno, adatta a gruppi numerosi e famiglie. Prenotazione confermata per le 19:00 del 26 Agosto.",
     tips: []
   },
   {
